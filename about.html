@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>À propos — Maison AURELYS | Parfumerie de Luxe Dakar</title>
+  <meta name="description" content="Découvrez l'histoire de Maison AURELYS, votre parfumerie de luxe à Dakar. Authenticité, passion et élégance au service de la clientèle sénégalaise et africaine." />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+</head>
+<body>
+
+<nav class="navbar scrolled" id="navbar">
+  <div class="container">
+    <a href="index.html" class="navbar-logo">
+      <span class="logo-maison">Maison</span>
+      <span class="logo-name">AURELYS</span>
+    </a>
+    <ul class="navbar-nav">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="collections.html">Collections</a></li>
+      <li><a href="guide.html">Guide olfactif</a></li>
+      <li><a href="about.html" class="active">À propos</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="navbar-actions">
+      <button class="currency-toggle" id="currencyToggle">FCFA</button>
+      <button class="nav-btn" id="searchBtn"><i class="fas fa-search"></i></button>
+      <button class="nav-btn" id="cartToggleBtn">
+        <i class="fas fa-shopping-bag"></i><span class="cart-badge">0</span>
+      </button>
+      <button class="hamburger" id="hamburger" aria-expanded="false" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+<div class="search-bar" id="searchBar">
+  <i class="fas fa-search" style="color:var(--text-muted)"></i>
+  <input type="search" id="searchInput" placeholder="Rechercher…" />
+  <button id="searchClose"><i class="fas fa-times" style="color:var(--text-muted)"></i></button>
+</div>
+<nav class="mobile-nav" id="mobileNav">
+  <div class="mobile-nav-header">
+    <div class="navbar-logo"><span class="logo-maison">Maison</span><span class="logo-name">AURELYS</span></div>
+    <button class="mobile-nav-close" id="mobileNavClose"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="mobile-nav-links">
+    <a href="index.html">Accueil</a><a href="collections.html">Collections</a>
+    <a href="guide.html">Guide olfactif</a><a href="about.html">À propos</a>
+    <a href="contact.html">Contact</a><a href="cart.html">Panier</a>
+  </div>
+</nav>
+<div class="nav-overlay" id="navOverlay"></div>
+<aside class="mini-cart" id="miniCart">
+  <div class="mini-cart-header">
+    <h3 style="font-family:var(--ff-serif);font-size:1.3rem">Votre panier</h3>
+    <button id="miniCartClose" class="mobile-nav-close"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="mini-cart-body" id="miniCartBody"></div>
+  <div class="mini-cart-footer" id="miniCartFooter" style="display:none">
+    <div class="d-flex justify-between mb-2" style="font-size:0.85rem;color:var(--text-muted)">
+      <span>Sous-total</span><span id="miniCartSubtotal" style="color:var(--ivory)"></span>
+    </div>
+    <a href="cart.html" class="btn btn-gold w-full" style="justify-content:center;display:flex">Finaliser</a>
+  </div>
+</aside>
+
+<!-- HERO -->
+<div class="page-hero" style="min-height:400px;background:linear-gradient(135deg,var(--dark) 0%,#1C0A00 40%,var(--dark2) 100%)">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html">Accueil</a><span class="breadcrumb-sep">›</span><span>À propos</span></div>
+    <h1>Notre Histoire</h1>
+    <p style="color:var(--gold);font-family:var(--ff-serif);font-style:italic;font-size:1.1rem;margin-top:0.75rem">« L'élégance qui vous suit partout. »</p>
+  </div>
+</div>
+
+<main style="padding:5rem 0">
+  <div class="container">
+
+    <!-- STORY -->
+    <div class="about-grid" style="margin-bottom:5rem">
+      <div class="animate-in-left">
+        <div class="about-image">
+          <div style="width:100%;height:100%;background:linear-gradient(135deg,#1C0A00 0%,#5C2D0A 50%,#C8A96E 100%);display:flex;align-items:center;justify-content:center;font-size:8rem;color:rgba(200,169,110,0.08)">
+            <i class="fas fa-store"></i>
+          </div>
+          <!-- ⬇️ <img src="images/fondatrice.jpg" alt="La fondatrice de Maison AURELYS" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"> -->
+          <div class="img-placeholder-label">📸 Votre photo ici</div>
+        </div>
+      </div>
+
+      <div class="animate-in">
+        <span class="section-label">Notre histoire</span>
+        <h2 class="section-title">L'âme de <br><span class="text-shimmer">Maison AURELYS</span></h2>
+        <div class="divider-gold" style="margin:1.5rem 0"></div>
+
+        <p style="color:var(--text-muted);line-height:1.9;margin-bottom:1.25rem;font-size:0.92rem">
+          Maison AURELYS est née d'une conviction profonde : l'excellence olfactive n'appartient pas uniquement à Paris, Dubai ou New York. Elle appartient aussi à Dakar, à Abidjan, à Bamako — et à toutes les femmes et hommes africains qui portent l'élégance comme un art de vivre.
+        </p>
+
+        <p style="color:var(--text-muted);line-height:1.9;margin-bottom:1.25rem;font-size:0.92rem">
+          Fondée par une passionnée du parfum qui a voyagé entre Dakar, Dubai et Paris pour dénicher les trésors olfactifs les plus convoités, Maison AURELYS s'est donné une mission simple mais exigeante : <strong style="color:var(--ivory)">rendre accessible à la clientèle africaine les parfums authentiques des plus grandes maisons mondiales</strong>, à des prix justes, avec un service irréprochable.
+        </p>
+
+        <p style="color:var(--text-muted);line-height:1.9;margin-bottom:2rem;font-size:0.92rem">
+          Chaque flacon qui entre dans notre catalogue a été sélectionné, testé, vérifié. Nous n'acceptons aucun compromis sur l'authenticité — parce que vous le méritez, et parce que la confiance est la base de toute relation durable.
+        </p>
+
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2rem">
+          <div class="about-stat">
+            <div class="about-stat-number">500+</div>
+            <div style="font-size:0.75rem;color:var(--text-muted)">Clients satisfaits</div>
+          </div>
+          <div class="about-stat">
+            <div class="about-stat-number">20+</div>
+            <div style="font-size:0.75rem;color:var(--text-muted)">Marques partenaires</div>
+          </div>
+          <div class="about-stat">
+            <div class="about-stat-number">100%</div>
+            <div style="font-size:0.75rem;color:var(--text-muted)">Originaux certifiés</div>
+          </div>
+        </div>
+
+        <a href="collections.html" class="btn btn-gold">Explorer la collection</a>
+      </div>
+    </div>
+
+    <!-- VALUES -->
+    <div class="text-center mb-6">
+      <span class="section-label">Ce qui nous définit</span>
+      <h2 class="section-title">Nos engagements</h2>
+      <div class="divider-gold"></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-bottom:5rem">
+      <div style="padding:2.5rem;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--dark2);text-align:center;transition:var(--transition)" class="animate-in" onmouseover="this.style.borderColor='var(--border-2)';this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='none'">
+        <i class="fas fa-shield-alt" style="font-size:2.5rem;color:var(--gold);margin-bottom:1.5rem;display:block"></i>
+        <h3 style="font-family:var(--ff-serif);font-size:1.4rem;margin-bottom:1rem">Authenticité absolue</h3>
+        <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.8">Chaque parfum vendu chez Maison AURELYS est 100% original, sourcé auprès de distributeurs agréés. Nous proposons des certificats d'authenticité sur demande.</p>
+      </div>
+
+      <div style="padding:2.5rem;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--dark2);text-align:center;transition:var(--transition)" class="animate-in" style="transition-delay:0.1s" onmouseover="this.style.borderColor='var(--border-2)';this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='none'">
+        <i class="fas fa-heart" style="font-size:2.5rem;color:var(--gold);margin-bottom:1.5rem;display:block"></i>
+        <h3 style="font-family:var(--ff-serif);font-size:1.4rem;margin-bottom:1rem">Service personnalisé</h3>
+        <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.8">Notre équipe vous conseille personnellement via WhatsApp, 7j/7, pour vous aider à trouver le parfum qui correspond parfaitement à votre personnalité et à votre budget.</p>
+      </div>
+
+      <div style="padding:2.5rem;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--dark2);text-align:center;transition:var(--transition)" class="animate-in" style="transition-delay:0.2s" onmouseover="this.style.borderColor='var(--border-2)';this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='none'">
+        <i class="fas fa-globe-africa" style="font-size:2.5rem;color:var(--gold);margin-bottom:1.5rem;display:block"></i>
+        <h3 style="font-family:var(--ff-serif);font-size:1.4rem;margin-bottom:1rem">Livraison sécurisée</h3>
+        <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.8">De Dakar à Abidjan, de Bamako à Lagos, en passant par Paris et Lyon — nous livrons votre parfum soigneusement emballé, avec un suivi en temps réel via WhatsApp.</p>
+      </div>
+    </div>
+
+    <!-- SECOND IMAGE -->
+    <div style="background:linear-gradient(135deg,var(--dark2),#1C0A00,var(--dark2));border:1px solid var(--border);border-radius:var(--radius-lg);padding:4rem 3rem;text-align:center;margin-bottom:5rem" class="animate-in">
+      <span class="section-label">Notre promesse</span>
+      <h2 class="section-title" style="max-width:600px;margin:0 auto 1.5rem">
+        <span class="text-shimmer">« Chaque parfum que vous portez raconte une histoire. »</span>
+      </h2>
+      <p style="color:var(--text-muted);max-width:580px;margin:0 auto 2rem;font-size:0.9rem;line-height:1.9">
+        Chez Maison AURELYS, nous croyons que la fraîcheur d'un Sauvage ou la chaleur d'un Khamrah ne sont pas de simples odeurs — ce sont des émotions, des souvenirs, des premières impressions. Nous avons l'honneur de vous accompagner dans cette aventure sensorielle.
+      </p>
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+        <a href="collections.html" class="btn btn-gold btn-lg">Découvrir nos parfums</a>
+        <a href="contact.html" class="btn btn-outline btn-lg">Nous contacter</a>
+      </div>
+    </div>
+
+    <!-- TEAM PLACEHOLDER -->
+    <div class="text-center mb-6">
+      <span class="section-label">L'équipe</span>
+      <h2 class="section-title">Ceux qui vous servent</h2>
+      <div class="divider-gold"></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2rem">
+      <!-- Team member placeholder × 3 -->
+      <div style="text-align:center" class="animate-in">
+        <div style="width:120px;height:120px;border-radius:50%;border:2px solid var(--border-2);margin:0 auto 1.25rem;background:linear-gradient(135deg,#1C0A00,#C8A96E);display:flex;align-items:center;justify-content:center;font-family:var(--ff-serif);font-size:2rem;color:var(--ivory)">A</div>
+        <!-- ⬇️ <img src="images/team1.jpg" style="width:120px;height:120px;border-radius:50%;object-fit:cover;border:2px solid var(--border-2);margin:0 auto 1.25rem;display:block"> -->
+        <div style="font-family:var(--ff-serif);font-size:1.2rem;color:var(--ivory);margin-bottom:0.25rem">Aurelys</div>
+        <div style="font-size:0.72rem;color:var(--gold);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.75rem">Fondatrice & Curatrice</div>
+        <p style="font-size:0.8rem;color:var(--text-muted);line-height:1.7;max-width:240px;margin:0 auto">Passionnée de parfumerie depuis toujours, elle sélectionne chaque flacon avec exigence et amour.</p>
+      </div>
+      <div style="text-align:center" class="animate-in" style="transition-delay:0.1s">
+        <div style="width:120px;height:120px;border-radius:50%;border:2px solid var(--border-2);margin:0 auto 1.25rem;background:linear-gradient(135deg,#0a0a2e,#C8A96E);display:flex;align-items:center;justify-content:center;font-family:var(--ff-serif);font-size:2rem;color:var(--ivory)">K</div>
+        <div style="font-family:var(--ff-serif);font-size:1.2rem;color:var(--ivory);margin-bottom:0.25rem">Khalil</div>
+        <div style="font-size:0.72rem;color:var(--gold);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.75rem">Conseiller Olfactif</div>
+        <p style="font-size:0.8rem;color:var(--text-muted);line-height:1.7;max-width:240px;margin:0 auto">Expert en parfums orientaux et occidentaux, il vous guide vers votre signature olfactive idéale.</p>
+      </div>
+      <div style="text-align:center" class="animate-in" style="transition-delay:0.2s">
+        <div style="width:120px;height:120px;border-radius:50%;border:2px solid var(--border-2);margin:0 auto 1.25rem;background:linear-gradient(135deg,#8B0000,#C8A96E);display:flex;align-items:center;justify-content:center;font-family:var(--ff-serif);font-size:2rem;color:var(--ivory)">F</div>
+        <div style="font-family:var(--ff-serif);font-size:1.2rem;color:var(--ivory);margin-bottom:0.25rem">Fatou</div>
+        <div style="font-size:0.72rem;color:var(--gold);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.75rem">Responsable livraisons</div>
+        <p style="font-size:0.8rem;color:var(--text-muted);line-height:1.7;max-width:240px;margin:0 auto">Elle veille à ce que chaque commande arrive dans son emballage luxe, à temps et en parfait état.</p>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<div class="wa-float">
+  <span class="wa-bubble">Nous contacter sur WhatsApp</span>
+  <a href="https://wa.me/221XXXXXXXXX" target="_blank" rel="noopener" class="wa-btn" aria-label="WhatsApp">
+    <div class="wa-pulse"></div>
+    <i class="fab fa-whatsapp"></i>
+  </a>
+</div>
+
+<footer>
+  <div class="container">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem;margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)">
+      <div class="navbar-logo"><span class="logo-maison">Maison</span><span class="logo-name">AURELYS</span></div>
+      <div style="display:flex;gap:0.75rem">
+        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+        <a href="https://wa.me/221XXXXXXXXX" class="social-link"><i class="fab fa-whatsapp"></i></a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Maison AURELYS · Tous droits réservés</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/images.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

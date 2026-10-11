@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panier & Commande — Maison AURELYS</title>
+  <meta name="description" content="Finalisez votre commande de parfums de luxe chez Maison AURELYS. Paiement Wave, Orange Money, carte bancaire ou à la livraison. Livraison Dakar et Afrique." />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    .cart-layout {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    .order-summary {
+      background: var(--dark2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      position: sticky;
+      top: 90px;
+    }
+
+    .order-summary-title {
+      font-family: var(--ff-serif);
+      font-size: 1.3rem;
+      color: var(--ivory);
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .summary-line {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .summary-line.total {
+      font-size: 1rem;
+      color: var(--ivory);
+      font-weight: 600;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .summary-line .discount { color: #4CAF50; }
+
+    .promo-form {
+      display: flex;
+      gap: 0;
+      margin: 1rem 0;
+    }
+
+    .promo-form input {
+      flex: 1;
+      background: var(--dark);
+      border: 1px solid var(--border);
+      border-right: none;
+      color: var(--ivory);
+      padding: 0.625rem 0.875rem;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      border-radius: var(--radius) 0 0 var(--radius);
+      outline: none;
+    }
+
+    .promo-form input:focus { border-color: var(--gold); }
+    .promo-form button { border-radius: 0 var(--radius) var(--radius) 0; }
+
+    .empty-cart {
+      text-align: center;
+      padding: 5rem 2rem;
+      grid-column: 1 / -1;
+    }
+
+    .empty-cart i { font-size: 4rem; opacity: 0.1; margin-bottom: 1.5rem; }
+
+    .step-indicator {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 2.5rem;
+    }
+
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .step.active { color: var(--ivory); }
+    .step.done   { color: var(--gold); }
+
+    .step-num {
+      width: 24px; height: 24px;
+      border: 1px solid currentColor;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      flex-shrink: 0;
+    }
+
+    .step-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+      margin: 0 0.75rem;
+    }
+
+    .step-line.done { background: var(--gold); }
+
+    .cart-table { width: 100%; }
+
+    .cart-table-item {
+      display: grid;
+      grid-template-columns: 80px 1fr 120px 100px 40px;
+      gap: 1rem;
+      align-items: center;
+      padding: 1.25rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .cart-table-img {
+      width: 80px; height: 100px;
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      color: rgba(200,169,110,0.3);
+    }
+
+    .cart-qty-control {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      width: fit-content;
+    }
+
+    .cart-qty-btn {
+      width: 28px; height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: var(--transition-fast);
+    }
+
+    .cart-qty-btn:hover { background: var(--dark3); color: var(--ivory); }
+    .cart-qty-input { width: 32px; text-align: center; font-size: 0.85rem; background: transparent; border: none; color: var(--ivory); }
+
+    @media (max-width: 1024px) {
+      .cart-layout { grid-template-columns: 1fr; }
+      .order-summary { position: static; }
+    }
+
+    @media (max-width: 640px) {
+      .cart-table-item { grid-template-columns: 64px 1fr 40px; }
+      .cart-table-item .price-col, .cart-table-item .qty-col { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="navbar scrolled" id="navbar">
+  <div class="container">
+    <a href="index.html" class="navbar-logo">
+      <span class="logo-maison">Maison</span>
+      <span class="logo-name">AURELYS</span>
+    </a>
+    <ul class="navbar-nav">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="collections.html">Collections</a></li>
+      <li><a href="guide.html">Guide</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="navbar-actions">
+      <button class="currency-toggle" id="currencyToggle">FCFA</button>
+      <button class="nav-btn" id="searchBtn"><i class="fas fa-search"></i></button>
+      <button class="nav-btn" id="cartToggleBtn">
+        <i class="fas fa-shopping-bag"></i>
+        <span class="cart-badge">0</span>
+      </button>
+      <button class="hamburger" id="hamburger" aria-expanded="false" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+<div class="search-bar" id="searchBar">
+  <i class="fas fa-search" style="color:var(--text-muted)"></i>
+  <input type="search" id="searchInput" placeholder="Rechercher…" />
+  <button id="searchClose"><i class="fas fa-times" style="color:var(--text-muted)"></i></button>
+</div>
+<nav class="mobile-nav" id="mobileNav">
+  <div class="mobile-nav-header">
+    <div class="navbar-logo"><span class="logo-maison">Maison</span><span class="logo-name">AURELYS</span></div>
+    <button class="mobile-nav-close" id="mobileNavClose"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="mobile-nav-links">
+    <a href="index.html">Accueil</a>
+    <a href="collections.html">Collections</a>
+    <a href="guide.html">Guide olfactif</a>
+    <a href="about.html">À propos</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</nav>
+<div class="nav-overlay" id="navOverlay"></div>
+<aside class="mini-cart" id="miniCart">
+  <div class="mini-cart-header">
+    <h3 style="font-family:var(--ff-serif);font-size:1.3rem">Votre panier</h3>
+    <button id="miniCartClose" class="mobile-nav-close"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="mini-cart-body" id="miniCartBody"></div>
+  <div class="mini-cart-footer" id="miniCartFooter" style="display:none">
+    <div class="d-flex justify-between mb-2" style="font-size:0.85rem;color:var(--text-muted)">
+      <span>Sous-total</span><span id="miniCartSubtotal" style="color:var(--ivory)"></span>
+    </div>
+    <a href="cart.html" class="btn btn-gold w-full" style="justify-content:center;display:flex">Finaliser</a>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main style="margin-top:72px;padding:3rem 0 6rem">
+  <div class="container">
+
+    <div class="breadcrumb">
+      <a href="index.html">Accueil</a>
+      <span class="breadcrumb-sep">›</span>
+      <span>Panier</span>
+    </div>
+
+    <h1 style="font-size:clamp(1.8rem,4vw,3rem);margin-bottom:0.5rem">Votre Panier</h1>
+    <div class="divider-gold" style="margin:1.5rem 0"></div>
+
+    <!-- Step indicator -->
+    <div class="step-indicator">
+      <div class="step active">
+        <div class="step-num">1</div>
+        Panier
+      </div>
+      <div class="step-line" id="line12"></div>
+      <div class="step" id="step2">
+        <div class="step-num">2</div>
+        Coordonnées
+      </div>
+      <div class="step-line" id="line23"></div>
+      <div class="step" id="step3">
+        <div class="step-num">3</div>
+        Paiement
+      </div>
+      <div class="step-line" id="line34"></div>
+      <div class="step" id="step4">
+        <div class="step-num">4</div>
+        Confirmation
+      </div>
+    </div>
+
+    <!-- Step 1: Cart -->
+    <div id="stepCart">
+      <div class="cart-layout" id="cartLayout">
+        <!-- Filled by JS -->
+      </div>
+    </div>
+
+    <!-- Step 2: Info client -->
+    <div id="stepInfo" style="display:none">
+      <div style="display:grid;grid-template-columns:1fr 380px;gap:2rem;align-items:start">
+        <div>
+          <h2 style="font-family:var(--ff-serif);font-size:1.8rem;margin-bottom:2rem">Vos coordonnées</h2>
+          <form id="orderForm" onsubmit="goToPayment(event)">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+              <div class="form-group">
+                <label class="form-label" for="firstName">Prénom *</label>
+                <input class="form-control" type="text" id="firstName" required placeholder="Fatima" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="lastName">Nom *</label>
+                <input class="form-control" type="text" id="lastName" required placeholder="Diallo" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="phone">Téléphone / WhatsApp *</label>
+              <input class="form-control" type="tel" id="phone" required placeholder="+221 77 000 00 00" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="email">E-mail (optionnel)</label>
+              <input class="form-control" type="email" id="email" placeholder="votre@email.com" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="deliveryCity">Ville de livraison *</label>
+              <select class="form-control" id="deliveryCity" required onchange="updateDelivery()">
+                <option value="">Choisissez votre ville…</option>
+                <option value="Dakar">Dakar & Banlieue</option>
+                <option value="Thiès">Thiès / Mbour / Saly</option>
+                <option value="Saint-Louis">Saint-Louis / Louga / Matam</option>
+                <option value="Casamance">Ziguinchor / Kolda / Sédhiou</option>
+                <option value="Autres Sénégal">Autres régions Sénégal</option>
+                <option value="Abidjan">Abidjan (Côte d'Ivoire)</option>
+                <option value="Bamako">Bamako (Mali)</option>
+                <option value="Lagos">Lagos (Nigeria)</option>
+                <option value="Accra">Accra (Ghana)</option>
+                <option value="Europe">Europe (Diaspora)</option>
+                <option value="Autres">Autre pays</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="address">Adresse complète *</label>
+              <textarea class="form-control form-control--textarea" id="address" required placeholder="Rue, quartier, points de repère…"></textarea>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="notes">Note pour le livreur (optionnel)</label>
+              <textarea class="form-control form-control--textarea" id="notes" style="min-height:80px" placeholder="Instructions particulières, cadeau, message personnalisé…"></textarea>
+            </div>
+            <div style="display:flex;gap:1rem">
+              <button type="button" class="btn btn-outline" onclick="backToCart()">← Retour</button>
+              <button type="submit" class="btn btn-gold flex-1">Continuer vers le paiement →</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Mini summary -->
+        <div class="order-summary">
+          <div class="order-summary-title">Récapitulatif</div>
+          <div id="step2Summary"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3: Payment -->
+    <div id="stepPayment" style="display:none">
+      <div style="display:grid;grid-template-columns:1fr 380px;gap:2rem;align-items:start">
+        <div>
+          <h2 style="font-family:var(--ff-serif);font-size:1.8rem;margin-bottom:2rem">Mode de paiement</h2>
+
+          <div class="payment-methods" id="paymentMethods">
+            <label class="payment-option" id="po-wave" onclick="selectPayment('wave')">
+              <input type="radio" name="payment" value="wave" />
+              <div class="payment-icon" style="background:rgba(0,102,204,0.15);color:#0066CC">
+                <i class="fas fa-mobile-alt"></i>
+              </div>
+              <div class="payment-info">
+                <strong>Wave</strong>
+                <span>Transfert Wave rapide · +221 77 550 56 95</span>
+              </div>
+              <i class="fas fa-chevron-right" style="color:var(--text-muted);margin-left:auto"></i>
+            </label>
+
+            <label class="payment-option" id="po-orange" onclick="selectPayment('orange')">
+              <input type="radio" name="payment" value="orange" />
+              <div class="payment-icon" style="background:rgba(255,102,0,0.15);color:#FF6600">
+                <i class="fas fa-mobile-alt"></i>
+              </div>
+              <div class="payment-info">
+                <strong>Orange Money</strong>
+                <span>Transfert OM · +221 77 550 56 95</span>
+              </div>
+              <i class="fas fa-chevron-right" style="color:var(--text-muted);margin-left:auto"></i>
+            </label>
+
+            <label class="payment-option" id="po-card" onclick="selectPayment('card')">
+              <input type="radio" name="payment" value="card" />
+              <div class="payment-icon" style="background:rgba(200,169,110,0.1);color:var(--gold)">
+                <i class="fas fa-credit-card"></i>
+              </div>
+              <div class="payment-info">
+                <strong>Carte bancaire</strong>
+                <span>Visa · Mastercard · Paiement sécurisé SSL</span>
+              </div>
+              <i class="fas fa-chevron-right" style="color:var(--text-muted);margin-left:auto"></i>
+            </label>
+
+            <label class="payment-option" id="po-delivery" onclick="selectPayment('delivery')">
+              <input type="radio" name="payment" value="delivery" />
+              <div class="payment-icon" style="background:rgba(76,175,80,0.1);color:#4CAF50">
+                <i class="fas fa-hand-holding-usd"></i>
+              </div>
+              <div class="payment-info">
+                <strong>Paiement à la livraison</strong>
+                <span>Disponible à Dakar uniquement · Espèces</span>
+              </div>
+              <i class="fas fa-chevron-right" style="color:var(--text-muted);margin-left:auto"></i>
+            </label>
+
+            <label class="payment-option" id="po-whatsapp" onclick="selectPayment('whatsapp')">
+              <input type="radio" name="payment" value="whatsapp" />
+              <div class="payment-icon" style="background:rgba(37,211,102,0.1);color:#25D366">
+                <i class="fab fa-whatsapp"></i>
+              </div>
+              <div class="payment-info">
+                <strong>Commander sur WhatsApp</strong>
+                <span>Finalisez votre commande directement sur WhatsApp</span>
+              </div>
+              <i class="fas fa-chevron-right" style="color:var(--text-muted);margin-left:auto"></i>
+            </label>
+          </div>
+
+          <div style="display:flex;gap:1rem;margin-top:2rem">
+            <button class="btn btn-outline" onclick="backToInfo()">← Retour</button>
+            <button class="btn btn-gold flex-1" onclick="placeOrder()">
+              <i class="fas fa-lock" style="font-size:0.8rem"></i>
+              Confirmer la commande
+            </button>
+          </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="order-summary">
+          <div class="order-summary-title">Récapitulatif</div>
+          <div id="step3Summary"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 4: Confirmation -->
+    <div id="stepConfirm" style="display:none;text-align:center;padding:4rem 0">
+      <div style="width:80px;height:80px;background:rgba(76,175,80,0.1);border:1px solid rgba(76,175,80,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 2rem;font-size:2rem;color:#4CAF50">
+        <i class="fas fa-check"></i>
+      </div>
+      <h2 style="font-family:var(--ff-serif);font-size:2.5rem;margin-bottom:0.75rem">Commande confirmée !</h2>
+      <div class="divider-gold"></div>
+      <p style="color:var(--text-muted);max-width:480px;margin:1.5rem auto 2rem;font-size:0.9rem;line-height:1.8" id="confirmMsg">
+        Merci pour votre commande. Notre équipe vous contactera sous 30 minutes sur WhatsApp pour confirmer les détails et la livraison.
+      </p>
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+        <a href="https://wa.me/221775505695" target="_blank" class="btn btn-whatsapp btn-lg">
+          <i class="fab fa-whatsapp"></i> Suivi sur WhatsApp
+        </a>
+        <a href="collections.html" class="btn btn-outline btn-lg">Continuer vos achats</a>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<div class="wa-float">
+  <span class="wa-bubble">Commander sur WhatsApp</span>
+  <a href="https://wa.me/221775505695?text=Bonjour%20Maison%20AURELYS%2C%20je%20souhaite%20avoir%20des%20informations%20sur%20vos%20parfums." target="_blank" rel="noopener" class="wa-btn" aria-label="WhatsApp">
+    <div class="wa-pulse"></div>
+    <i class="fab fa-whatsapp"></i>
+  </a>
+</div>
+
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/images.js"></script>
+<script src="js/main.js"></script>
+<script>
+let currentDeliveryZone = null;
+let selectedPayment = null;
+let orderData = {};
+
+// ─── Step 1: Render cart ─────────────────────────────────────
+function renderCartPage() {
+  const layout = document.getElementById("cartLayout");
+  const cart   = window.AurelyCart.get();
+
+  if (cart.length === 0) {
+    layout.innerHTML = `
+      <div class="empty-cart">
+        <i class="fas fa-shopping-bag" style="display:block"></i>
+        <h2 style="font-family:var(--ff-serif);font-size:2rem;color:var(--ivory);margin-bottom:0.75rem">Votre panier est vide</h2>
+        <p style="color:var(--text-muted);margin-bottom:2rem">Découvrez notre collection exclusive de parfums de luxe.</p>
+        <a href="collections.html" class="btn btn-gold btn-lg">Explorer les collections</a>
+      </div>
+    `;
+    return;
+  }
+
+  const promo = window.AurelyCart.promo.get();
+  const subtotal = window.AurelyCart.getTotal();
+  const delivery = currentDeliveryZone ? currentDeliveryZone.price : 0;
+  const discount = window.AurelyCart.promo.calcDiscount(subtotal, promo);
+  const freeDelivery = subtotal >= window.AURELYS.freeDeliveryThreshold;
+  const deliveryCost = freeDelivery ? 0 : delivery;
+  const total = subtotal - discount + deliveryCost;
+
+  layout.innerHTML = `
+    <!-- Cart items -->
+    <div>
+      <div style="display:grid;grid-template-columns:80px 1fr 120px 100px 40px;gap:1rem;padding:0.625rem 0;border-bottom:1px solid var(--border);font-size:0.65rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-muted)">
+        <span></span>
+        <span>Produit</span>
+        <span class="qty-col">Quantité</span>
+        <span class="price-col" style="text-align:right">Prix</span>
+        <span></span>
+      </div>
+
+      ${cart.map(item => `
+        <div class="cart-table-item">
+          <div class="cart-table-img" style="background:#0D0D0F;border:1px solid rgba(212,175,55,0.2);border-radius:var(--radius);aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;overflow:hidden">
+            <img src="${item.image || 'images/parfums/fallback-aurelys.jpg'}" alt="${item.name}" style="width:100%;height:100%;object-fit:contain;padding:4px" onerror="if(window.aurelysFallback)window.aurelysFallback(this);else this.src='images/parfums/fallback-aurelys.jpg'" />
+          </div>
+          <div>
+            <div style="font-size:0.65rem;color:var(--gold);letter-spacing:0.15em;text-transform:uppercase">${item.brand}</div>
+            <div style="font-family:var(--ff-serif);font-size:1.05rem;color:var(--ivory);margin:0.25rem 0">${item.name}</div>
+            <div style="font-size:0.78rem;color:var(--text-muted)">Taille : ${item.size} ml</div>
+            <div style="font-size:0.8rem;color:var(--text-muted);margin-top:0.25rem">${new Intl.NumberFormat("fr-FR").format(item.price_fcfa)} FCFA / unité</div>
+          </div>
+          <div class="qty-col">
+            <div class="cart-qty-control">
+              <button class="cart-qty-btn" onclick="updateItem('${item.key}', ${item.qty - 1})">−</button>
+              <input class="cart-qty-input" type="number" min="1" value="${item.qty}" onchange="updateItem('${item.key}', parseInt(this.value))" readonly />
+              <button class="cart-qty-btn" onclick="updateItem('${item.key}', ${item.qty + 1})">+</button>
+            </div>
+          </div>
+          <div class="price-col" style="text-align:right;font-family:var(--ff-serif);font-size:1rem;color:var(--ivory)">
+            ${new Intl.NumberFormat("fr-FR").format(item.price_fcfa * item.qty)} FCFA
+          </div>
+          <button onclick="window.AurelyCart.remove('${item.key}');renderCartPage()" style="color:var(--text-muted);font-size:0.85rem" aria-label="Supprimer">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      `).join("")}
+
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:1.5rem;flex-wrap:wrap;gap:1rem">
+        <a href="collections.html" class="btn btn-outline btn-sm">
+          <i class="fas fa-arrow-left"></i> Continuer les achats
+        </a>
+        <button class="btn btn-dark btn-sm" onclick="if(confirm('Vider le panier ?')){window.AurelyCart.clear();renderCartPage()}">
+          <i class="fas fa-trash-alt"></i> Vider le panier
+        </button>
+      </div>
+    </div>
+
+    <!-- Order summary -->
+    <div class="order-summary">
+      <div class="order-summary-title">Votre commande</div>
+
+      ${cart.map(item => `
+        <div class="summary-line">
+          <span>${item.name} × ${item.qty}</span>
+          <span>${new Intl.NumberFormat("fr-FR").format(item.price_fcfa * item.qty)} FCFA</span>
+        </div>
+      `).join("")}
+
+      <div style="border-top:1px solid var(--border);margin:1rem 0;padding-top:1rem">
+        <!-- Promo code -->
+        <div style="font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:0.5rem">Code promo</div>
+        <div class="promo-form">
+          <input type="text" id="promoInput" placeholder="AURELYS10" maxlength="20" />
+          <button class="btn btn-dark btn-sm" onclick="applyPromoCode()" style="border-radius:0 var(--radius) var(--radius) 0">Appliquer</button>
+        </div>
+        <div id="promoMsg" style="font-size:0.75rem;margin-top:0.25rem"></div>
+        ${promo ? `<div style="font-size:0.75rem;color:#4CAF50;margin-top:0.5rem"><i class="fas fa-tag"></i> Code actif : ${promo.code} · ${promo.label} <button onclick="window.AurelyCart.promo.clear();renderCartPage()" style="color:var(--text-muted);font-size:0.65rem;margin-left:0.5rem">✕</button></div>` : ""}
+      </div>
+
+      <div class="summary-line">
+        <span>Sous-total</span>
+        <span>${new Intl.NumberFormat("fr-FR").format(subtotal)} FCFA</span>
+      </div>
+
+      ${discount > 0 ? `<div class="summary-line"><span>Réduction</span><span class="discount">−${new Intl.NumberFormat("fr-FR").format(discount)} FCFA</span></div>` : ""}
+
+      <div class="summary-line">
+        <span>Livraison</span>
+        <span>${freeDelivery || deliveryCost === 0 ? '<span style="color:#4CAF50">🎁 Offerte</span>' : new Intl.NumberFormat("fr-FR").format(deliveryCost) + " FCFA"}</span>
+      </div>
+
+      ${subtotal < window.AURELYS.freeDeliveryThreshold ? `
+        <div style="background:rgba(200,169,110,0.05);border:1px solid var(--border);border-radius:var(--radius);padding:0.875rem;margin:0.75rem 0;font-size:0.75rem;color:var(--text-muted)">
+          💡 Plus que <strong style="color:var(--gold)">${new Intl.NumberFormat("fr-FR").format(window.AURELYS.freeDeliveryThreshold - subtotal)} FCFA</strong> pour la livraison gratuite à Dakar !
+        </div>
+      ` : ""}
+
+      <div class="summary-line total">
+        <span>Total</span>
+        <span style="color:var(--gold)">${new Intl.NumberFormat("fr-FR").format(total)} FCFA</span>
+      </div>
+
+      <button class="btn btn-gold w-full btn-lg" style="margin-top:1.25rem;justify-content:center" onclick="goToInfo()">
+        <i class="fas fa-arrow-right"></i> Commander
+      </button>
+
+      <div style="margin-top:1.25rem;text-align:center">
+        <a href="${buildWaOrderLink()}" target="_blank" class="btn btn-whatsapp w-full btn-sm" style="justify-content:center">
+          <i class="fab fa-whatsapp"></i> Commander sur WhatsApp
+        </a>
+      </div>
+
+      <div style="display:flex;align-items:center;justify-content:center;gap:0.75rem;margin-top:1rem;font-size:0.7rem;color:var(--text-muted)">
+        <i class="fas fa-lock"></i> Paiement 100% sécurisé
+      </div>
+    </div>
+  `;
+}
+
+function buildWaOrderLink() {
+  const cart = window.AurelyCart.get();
+  const total = window.AurelyCart.getTotal();
+  let msg = "Bonjour Maison AURELYS ! Je souhaite passer cette commande :\n\n";
+  cart.forEach(item => {
+    msg += `• ${item.brand} - ${item.name} (${item.size}ml) × ${item.qty} = ${new Intl.NumberFormat("fr-FR").format(item.price_fcfa * item.qty)} FCFA\n`;
+  });
+  msg += `\nTOTAL : ${new Intl.NumberFormat("fr-FR").format(total)} FCFA\n\nMon nom et adresse :`;
+  return `https://wa.me/221775505695?text=${encodeURIComponent(msg)}`;
+}
+
+function updateItem(key, qty) {
+  window.AurelyCart.updateQty(key, qty);
+  renderCartPage();
+}
+
+function applyPromoCode() {
+  const code = document.getElementById("promoInput").value.trim();
+  if (!code) return;
+  const result = window.AurelyCart.promo.apply(code);
+  const msg = document.getElementById("promoMsg");
+  msg.textContent = result.message;
+  msg.style.color = result.success ? "#4CAF50" : "#F44336";
+  if (result.success) renderCartPage();
+}
+
+// ─── Step navigation ─────────────────────────────────────────
+function setStep(n) {
+  document.querySelectorAll(".step").forEach((s, i) => {
+    if (i + 1 < n)  { s.classList.add("done"); s.classList.remove("active"); }
+    if (i + 1 === n){ s.classList.add("active"); s.classList.remove("done"); }
+    if (i + 1 > n)  { s.classList.remove("active","done"); }
+  });
+  document.querySelectorAll(".step-line").forEach((l, i) => {
+    l.classList.toggle("done", i + 1 < n);
+  });
+
+  ["stepCart","stepInfo","stepPayment","stepConfirm"].forEach((id, i) => {
+    document.getElementById(id).style.display = (i + 1 === n) ? "block" : "none";
+  });
+}
+
+function goToInfo() {
+  if (window.AurelyCart.get().length === 0) return;
+  renderSummary("step2Summary");
+  setStep(2);
+}
+
+function backToCart() { setStep(1); }
+
+function goToPayment(e) {
+  e.preventDefault();
+  orderData = {
+    firstName: document.getElementById("firstName").value,
+    lastName:  document.getElementById("lastName").value,
+    phone:     document.getElementById("phone").value,
+    email:     document.getElementById("email").value,
+    city:      document.getElementById("deliveryCity").value,
+    address:   document.getElementById("address").value,
+    notes:     document.getElementById("notes").value
+  };
+  renderSummary("step3Summary");
+  setStep(3);
+}
+
+function backToInfo() { setStep(2); }
+
+function selectPayment(method) {
+  selectedPayment = method;
+  document.querySelectorAll(".payment-option").forEach(opt => opt.classList.remove("selected"));
+  document.getElementById("po-" + method)?.classList.add("selected");
+}
+
+function placeOrder() {
+  if (!selectedPayment) {
+    window.showToast("Veuillez sélectionner un mode de paiement.");
+    return;
+  }
+
+  // Build WhatsApp message if that option chosen
+  if (selectedPayment === "whatsapp") {
+    window.open(buildWaOrderLink(), "_blank");
+  }
+
+  // Confirmation message
+  const msgs = {
+    wave:     "Nous avons reçu votre commande. Veuillez envoyer le paiement sur Wave au +221 77 550 56 95 avec la référence de votre commande. Notre équipe vous confirmera la réception sous 30 minutes.",
+    orange:   "Nous avons reçu votre commande. Veuillez envoyer le paiement sur Orange Money au +221 77 550 56 95. Notre équipe vous confirmera sous 30 minutes.",
+    card:     "Merci ! Notre équipe vous contactera sous 30 minutes via WhatsApp avec le lien de paiement sécurisé.",
+    delivery: "Commande confirmée ! Notre livreur vous contactera pour convenir d'un horaire de livraison à Dakar.",
+    whatsapp: "Parfait ! Continuez sur WhatsApp pour finaliser votre commande avec notre équipe."
+  };
+
+  document.getElementById("confirmMsg").textContent = msgs[selectedPayment];
+  window.AurelyCart.clear();
+  window.AurelyCart.promo.clear();
+  setStep(4);
+}
+
+function renderSummary(targetId) {
+  const cart   = window.AurelyCart.get();
+  const promo  = window.AurelyCart.promo.get();
+  const subtotal = window.AurelyCart.getTotal();
+  const freeDelivery = subtotal >= window.AURELYS.freeDeliveryThreshold;
+  const deliveryCost = currentDeliveryZone && !freeDelivery ? currentDeliveryZone.price : 0;
+  const discount = window.AurelyCart.promo.calcDiscount(subtotal, promo);
+  const total = subtotal - discount + deliveryCost;
+
+  document.getElementById(targetId).innerHTML = `
+    ${cart.map(item => `
+      <div class="summary-line">
+        <span>${item.name} × ${item.qty}</span>
+        <span>${new Intl.NumberFormat("fr-FR").format(item.price_fcfa * item.qty)} FCFA</span>
+      </div>
+    `).join("")}
+    <div style="border-top:1px solid var(--border);margin:1rem 0;padding-top:1rem">
+      ${discount > 0 ? `<div class="summary-line"><span>Réduction</span><span class="discount">−${new Intl.NumberFormat("fr-FR").format(discount)} FCFA</span></div>` : ""}
+      <div class="summary-line">
+        <span>Livraison</span>
+        <span>${deliveryCost === 0 ? '<span style="color:#4CAF50">Offerte</span>' : new Intl.NumberFormat("fr-FR").format(deliveryCost) + " FCFA"}</span>
+      </div>
+      <div class="summary-line total">
+        <span>Total</span>
+        <span style="color:var(--gold)">${new Intl.NumberFormat("fr-FR").format(total)} FCFA</span>
+      </div>
+    </div>
+  `;
+}
+
+function updateDelivery() {
+  const city = document.getElementById("deliveryCity")?.value;
+  currentDeliveryZone = window.AURELYS.deliveryZones[city] || null;
+}
+
+// Init
+renderCartPage();
+setStep(1);
+</script>
+</body>
+</html>

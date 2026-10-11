@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maison AURELYS — Parfumerie de Luxe · Dakar, Sénégal</title>
+  <meta name="description" content="Maison AURELYS, votre parfumerie de luxe à Dakar. Découvrez notre collection exclusive : parfums orientaux, oud, grands noms de la parfumerie française et internationale. Livraison au Sénégal et en Afrique de l'Ouest." />
+  <meta name="keywords" content="parfum de luxe Dakar, parfumerie Sénégal, parfum oud Afrique, Lattafa, Armaf, Dior, Chanel, parfum Dakar, parfumerie africaine, FCFA, livraison Dakar" />
+  <meta property="og:title" content="Maison AURELYS — L'élégance qui vous suit partout" />
+  <meta property="og:description" content="Parfumerie de luxe au Sénégal. Collection exclusive de parfums orientaux et occidentaux. Livraison Dakar, Abidjan, Bamako et diaspora." />
+  <meta property="og:type" content="website" />
+  <link rel="canonical" href="https://maisonaurelys.sn/" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    /* ── Page specific styles ── */
+    .hero-decor {
+      position: absolute;
+      right: 0; top: 0;
+      width: 50%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .hero-bottle-area {
+      width: 320px;
+      height: 500px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-bottle-glow {
+      position: absolute;
+      width: 240px; height: 360px;
+      background: radial-gradient(ellipse, rgba(200,169,110,0.15) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: breathe 4s ease-in-out infinite;
+    }
+
+    @keyframes breathe {
+      0%, 100% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.1); opacity: 1; }
+    }
+
+    .hero-bottle-icon {
+      font-size: 8rem;
+      color: rgba(200,169,110,0.15);
+      position: relative;
+      z-index: 1;
+      /* Replace with actual bottle image: display:none when img loads */
+    }
+
+    /* IMG PLACEHOLDER AREA — for hero */
+    .hero-product-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center bottom;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+    .hero-product-img.loaded { opacity: 1; }
+
+    /* Marquee band */
+    .marquee-band {
+      overflow: hidden;
+      background: var(--gold);
+      padding: 0.6rem 0;
+    }
+    .marquee-inner {
+      display: flex;
+      animation: marquee 25s linear infinite;
+      white-space: nowrap;
+    }
+    .marquee-inner span {
+      font-family: var(--ff-sans);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--black);
+      padding: 0 2rem;
+    }
+    .marquee-inner .sep {
+      color: rgba(0,0,0,0.4);
+      padding: 0;
+    }
+
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* Best sellers slider */
+    .slider-track {
+      overflow-x: auto;
+      display: flex;
+      gap: 1.5rem;
+      padding-bottom: 1rem;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .slider-track::-webkit-scrollbar { display: none; }
+    .slider-track .product-card {
+      min-width: 260px;
+      scroll-snap-align: start;
+      flex-shrink: 0;
+    }
+
+    /* Features grid */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+
+    .feature-card {
+      text-align: center;
+      padding: 2.5rem 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: var(--dark2);
+      transition: var(--transition);
+    }
+
+    .feature-card:hover {
+      border-color: var(--border-2);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-gold);
+    }
+
+    .feature-icon {
+      font-size: 2rem;
+      color: var(--gold);
+      margin-bottom: 1.25rem;
+      display: block;
+    }
+
+    .feature-title {
+      font-family: var(--ff-serif);
+      font-size: 1.15rem;
+      color: var(--ivory);
+      margin-bottom: 0.5rem;
+    }
+
+    .feature-desc {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* Category showcase */
+    .cat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: auto auto;
+      gap: 1rem;
+    }
+
+    .cat-card {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      transition: var(--transition);
+    }
+
+    .cat-card.large { grid-column: span 2; aspect-ratio: 16/9; }
+    .cat-card.tall  { grid-row: span 2; aspect-ratio: 3/4; }
+
+    .cat-card:hover { border-color: var(--border-2); transform: scale(1.01); }
+
+    .cat-card-bg {
+      width: 100%; height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.6s ease;
+    }
+
+    .cat-card:hover .cat-card-bg { transform: scale(1.05); }
+
+    .cat-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 50%, transparent 100%);
+    }
+
+    .cat-card-content {
+      position: absolute;
+      bottom: 1.5rem; left: 1.5rem;
+    }
+
+    .cat-card-content .cat-name {
+      font-family: var(--ff-serif);
+      font-size: 1.4rem;
+      color: var(--ivory);
+      margin-bottom: 0.25rem;
+    }
+
+    .cat-card-content .cat-count {
+      font-size: 0.72rem;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+    }
+
+    /* Brand logos band */
+    .brands-band {
+      background: var(--dark2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 2rem 0;
+    }
+
+    .brands-track {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .brand-name {
+      font-family: var(--ff-serif);
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      transition: var(--transition-fast);
+      cursor: default;
+    }
+
+    .brand-name:hover { color: var(--gold); }
+
+    @media (max-width: 768px) {
+      .features-grid { grid-template-columns: 1fr 1fr; }
+      .cat-grid      { grid-template-columns: 1fr 1fr; }
+      .cat-card.large { grid-column: span 2; }
+      .cat-card.tall  { grid-row: span 1; aspect-ratio: 4/3; }
+    }
+
+    @media (max-width: 480px) {
+      .features-grid { grid-template-columns: 1fr; }
+      .cat-grid      { grid-template-columns: 1fr; }
+      .cat-card.large { grid-column: span 1; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+  NAVIGATION
+══════════════════════════════════════════ -->
+<nav class="navbar" id="navbar" role="navigation" aria-label="Navigation principale">
+  <div class="container">
+
+    <!-- Logo -->
+    <a href="index.html" class="navbar-logo" aria-label="Maison AURELYS — Accueil">
+      <span class="logo-maison">Maison</span>
+      <span class="logo-name">AURELYS</span>
+    </a>
+
+    <!-- Nav links (desktop) -->
+    <ul class="navbar-nav" role="list">
+      <li><a href="index.html" class="active">Accueil</a></li>
+      <li><a href="collections.html">Collections</a></li>
+      <li><a href="product.html">Produits</a></li>
+      <li><a href="guide.html">Guide olfactif</a></li>
+      <li><a href="about.html">À propos</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+
+    <!-- Actions -->
+    <div class="navbar-actions">
+      <!-- Currency -->
+      <button class="currency-toggle" id="currencyToggle" aria-label="Changer de devise" title="Devise">FCFA</button>
+      <!-- Language -->
+      <div class="lang-selector">
+        <select id="langSelect" aria-label="Langue">
+          <option value="fr">FR</option>
+          <option value="en">EN</option>
+          <option value="wo">WO</option>
+        </select>
+      </div>
+      <!-- Search -->
+      <button class="nav-btn" id="searchBtn" aria-label="Rechercher">
+        <i class="fas fa-search" aria-hidden="true"></i>
+      </button>
+      <!-- Wishlist -->
+      <a href="#" class="nav-btn" aria-label="Favoris">
+        <i class="far fa-heart" aria-hidden="true"></i>
+      </a>
+      <!-- Cart -->
+      <button class="nav-btn" id="cartToggleBtn" aria-label="Panier">
+        <i class="fas fa-shopping-bag" aria-hidden="true"></i>
+        <span class="cart-badge" aria-live="polite">0</span>
+      </button>
+      <!-- Hamburger -->
+      <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+  </div>
+</nav>
+
+<!-- Search overlay -->
+<div class="search-bar" id="searchBar" role="search">
+  <i class="fas fa-search" style="color:var(--text-muted)"></i>
+  <input type="search" id="searchInput" placeholder="Rechercher un parfum, une marque…" autocomplete="off" aria-label="Rechercher" />
+  <button id="searchClose" aria-label="Fermer la recherche" style="color:var(--text-muted);font-size:1.25rem">
+    <i class="fas fa-times"></i>
+  </button>
+</div>
+<div id="searchResultsDropdown" style="position:fixed;top:80px;left:0;right:0;z-index:1490;display:none;background:var(--dark);border-bottom:1px solid var(--border);max-height:60vh;overflow-y:auto;"></div>
+
+<!-- Mobile nav -->
+<nav class="mobile-nav" id="mobileNav" aria-label="Menu mobile">
+  <div class="mobile-nav-header">
+    <div class="navbar-logo">
+      <span class="logo-maison">Maison</span>
+      <span class="logo-name">AURELYS</span>
+    </div>
+    <button class="mobile-nav-close" id="mobileNavClose" aria-label="Fermer le menu">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+  <div class="mobile-nav-links">
+    <a href="index.html">Accueil</a>
+    <a href="collections.html">Collections</a>
+    <a href="guide.html">Guide olfactif</a>
+    <a href="about.html">À propos</a>
+    <a href="contact.html">Contact</a>
+    <a href="cart.html">Panier</a>
+    <a href="admin.html">Administration</a>
+  </div>
+  <div style="margin-top:2rem;padding-top:2rem;border-top:1px solid var(--border)">
+    <p style="font-size:0.72rem;color:var(--text-muted);margin-bottom:1rem">Contactez-nous</p>
+    <a href="https://wa.me/221775505695?text=Bonjour%20Maison%20AURELYS%2C%20je%20souhaite%20avoir%20des%20informations%20sur%20vos%20parfums." target="_blank" class="btn btn-whatsapp btn-sm w-full" style="justify-content:center">
+      <i class="fab fa-whatsapp"></i> WhatsApp
+    </a>
+  </div>
+</nav>
+<div class="nav-overlay" id="navOverlay"></div>
+
+<!-- Mini Cart -->
+<aside class="mini-cart" id="miniCart" aria-label="Votre panier">
+  <div class="mini-cart-header">
+    <h3 style="font-family:var(--ff-serif);font-size:1.3rem">Votre panier</h3>
+    <button id="miniCartClose" class="mobile-nav-close" aria-label="Fermer">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+  <div class="mini-cart-body" id="miniCartBody">
+    <p style="color:var(--text-muted);font-size:0.85rem;text-align:center;margin-top:3rem">
+      <i class="fas fa-shopping-bag" style="font-size:2rem;display:block;margin-bottom:1rem;opacity:0.3"></i>
+      Votre panier est vide
+    </p>
+  </div>
+  <div class="mini-cart-footer" id="miniCartFooter" style="display:none">
+    <div class="d-flex justify-between mb-2" style="font-size:0.85rem;color:var(--text-muted)">
+      <span>Sous-total</span>
+      <span id="miniCartSubtotal" style="color:var(--ivory)">0 FCFA</span>
+    </div>
+    <div class="d-flex justify-between mb-3" style="font-size:0.72rem;color:var(--text-muted)">
+      <span>Livraison calculée à la commande</span>
+    </div>
+    <a href="cart.html" class="btn btn-gold w-full" style="justify-content:center;display:flex">
+      Finaliser la commande
+    </a>
+    <button class="btn btn-outline w-full mt-2" style="justify-content:center;display:flex" onclick="document.getElementById('miniCart').classList.remove('open');document.getElementById('navOverlay').classList.remove('show')">
+      Continuer les achats
+    </button>
+  </div>
+</aside>
+
+<!-- ══════════════════════════════════════════
+  HERO
+══════════════════════════════════════════ -->
+<section class="hero" id="hero" aria-label="Bannière principale">
+  <!-- Background -->
+  <div class="hero-bg">
+    <!-- ⬇️ REMPLACEZ PAR VOTRE PHOTO DE FOND  -->
+    <!-- <img src="images/hero-bg.jpg" alt="" class="hero-bg-img" id="heroBgImg" /> -->
+  </div>
+
+  <!-- Floating particles (decorative) -->
+  <div class="hero-particles" id="heroParticles" aria-hidden="true"></div>
+
+  <div class="container">
+    <div class="hero-content">
+      <span class="hero-overline">✦ Nouvelle Collection 2025 ✦</span>
+      <h1 class="hero-title">
+        Révélez votre<br>
+        <em>signature olfactive</em>
+      </h1>
+      <p class="hero-slogan">
+        L'élégance qui vous suit partout. — Parfums authentiques, livrés à Dakar,<br>
+        Abidjan, Bamako et dans toute la diaspora.
+      </p>
+      <div class="hero-cta">
+        <a href="collections.html" class="btn btn-gold btn-lg">
+          Découvrir la collection <i class="fas fa-arrow-right"></i>
+        </a>
+        <a href="guide.html" class="btn btn-outline btn-lg">
+          Mon parfum idéal
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Decorative bottle area (right half) -->
+  <div class="hero-decor" aria-hidden="true">
+    <div class="hero-bottle-area">
+      <div class="hero-bottle-glow"></div>
+      <i class="fas fa-vial hero-bottle-icon"></i>
+      <!-- ⬇️ REMPLACEZ PAR VOTRE PHOTO DE FLACON -->
+      <!-- <img src="images/hero-bottle.png" alt="" class="hero-product-img" id="heroBottleImg" /> -->
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="hero-scroll" aria-hidden="true">
+    <div class="scroll-line"></div>
+    <span>Défiler</span>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+  MARQUEE BAND
+══════════════════════════════════════════ -->
+<div class="marquee-band" aria-hidden="true">
+  <div class="marquee-inner" id="marqueeInner">
+    <span>✦ Livraison Dakar en 24h</span><span class="sep">·</span>
+    <span>✦ 100% Originaux Garantis</span><span class="sep">·</span>
+    <span>✦ Paiement Wave & Orange Money</span><span class="sep">·</span>
+    <span>✦ Coffrets cadeaux personnalisés</span><span class="sep">·</span>
+    <span>✦ Livraison Abidjan · Bamako · Lagos · Accra</span><span class="sep">·</span>
+    <span>✦ Livraison Dakar en 24h</span><span class="sep">·</span>
+    <span>✦ 100% Originaux Garantis</span><span class="sep">·</span>
+    <span>✦ Paiement Wave & Orange Money</span><span class="sep">·</span>
+    <span>✦ Coffrets cadeaux personnalisés</span><span class="sep">·</span>
+    <span>✦ Livraison Abidjan · Bamako · Lagos · Accra</span><span class="sep">·</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+  REASSURANCE
+══════════════════════════════════════════ -->
+<div class="reassurance">
+  <div class="container">
+    <div class="reassurance-list">
+      <div class="reassurance-item">
+        <i class="fas fa-shield-alt" aria-hidden="true"></i>
+        <span>Authenticité 100% garantie</span>
+      </div>
+      <div class="reassurance-item">
+        <i class="fas fa-truck" aria-hidden="true"></i>
+        <span>Livraison express Dakar 24h</span>
+      </div>
+      <div class="reassurance-item">
+        <i class="fas fa-lock" aria-hidden="true"></i>
+        <span>Paiement sécurisé</span>
+      </div>
+      <div class="reassurance-item">
+        <i class="fas fa-gift" aria-hidden="true"></i>
+        <span>Emballage cadeau offert</span>
+      </div>
+      <div class="reassurance-item">
+        <i class="fab fa-whatsapp" aria-hidden="true"></i>
+        <span>Commande sur WhatsApp</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+  CATÉGORIES
+══════════════════════════════════════════ -->
+<section id="categories" aria-labelledby="cat-heading">
+  <div class="container">
+    <div class="text-center mb-6">
+      <span class="section-label">Explorer</span>
+      <h2 class="section-title" id="cat-heading">Nos Collections</h2>
+      <div class="divider-gold"></div>
+    </div>
+
+    <div class="cat-grid animate-in">
+      <!-- Grande carte gauche -->
+      <a href="collections.html?g=homme" class="cat-card large" style="text-decoration:none">
+        <div class="cat-card-bg" style="background: linear-gradient(135deg, #0a0a2e 0%, #1a1a4e 50%, #0D0D0D 100%)">
+          <i class="fas fa-vial" style="font-size:5rem;color:rgba(200,169,110,0.15)"></i>
+          <!-- ⬇️ <img src="images/cat-homme.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"> -->
+        </div>
+        <div class="cat-card-overlay"></div>
+        <div class="cat-card-content">
+          <div class="cat-name">Collection Homme</div>
+          <div class="cat-count">Boisé · Frais · Oriental</div>
+        </div>
+      </a>
+
+      <!-- Colonne de droite -->
+      <a href="collections.html?g=femme" class="cat-card" style="text-decoration:none">
+        <div class="cat-card-bg" style="background: linear-gradient(135deg, #8B0000 0%, #C71585 60%, #2C1810 100%)">
+          <i class="fas fa-spa" style="font-size:4rem;color:rgba(255,255,255,0.1)"></i>
+        </div>
+        <div class="cat-card-overlay"></div>
+        <div class="cat-card-content">
+          <div class="cat-name">Collection Femme</div>
+          <div class="cat-count">Floral · Rose · Gourmand</div>
+        </div>
+      </a>
+
+      <a href="collections.html?cat=oriental" class="cat-card" style="text-decoration:none">
+        <div class="cat-card-bg" style="background: linear-gradient(135deg, #3D1A02 0%, #9C5A1A 50%, #1a1a1a 100%)">
+          <i class="fas fa-fire" style="font-size:4rem;color:rgba(200,169,110,0.2)"></i>
+        </div>
+        <div class="cat-card-overlay"></div>
+        <div class="cat-card-content">
+          <div class="cat-name">Orientaux & Oud</div>
+          <div class="cat-count">Richesse · Profondeur · Tradition</div>
+        </div>
+      </a>
+
+      <a href="collections.html?cat=coffrets" class="cat-card" style="text-decoration:none">
+        <div class="cat-card-bg" style="background: linear-gradient(135deg, #1a1a1a 0%, #2C1810 50%, #8B6914 100%)">
+          <i class="fas fa-gift" style="font-size:3.5rem;color:rgba(200,169,110,0.2)"></i>
+        </div>
+        <div class="cat-card-overlay"></div>
+        <div class="cat-card-content">
+          <div class="cat-name">Coffrets Cadeaux</div>
+          <div class="cat-count">Mariage · Tabaski · Anniversaire</div>
+        </div>
+      </a>
+
+      <a href="collections.html?cat=huiles" class="cat-card" style="text-decoration:none">
+        <div class="cat-card-bg" style="background: linear-gradient(135deg, #1C0A00 0%, #5C2D0A 70%, #C8A96E 100%)">
+          <i class="fas fa-oil-can" style="font-size:3.5rem;color:rgba(200,169,110,0.15)"></i>
+        </div>
+        <div class="cat-card-overlay"></div>
+        <div class="cat-card-content">
+          <div class="cat-name">Huiles & Encens</div>
+          <div class="cat-count">Oud · Musc · Thiouraye</div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+  NOUVEAUTÉS
+══════════════════════════════════════════ -->
+<section id="nouveautes" aria-labelledby="new-heading">
+  <div class="container">
+    <div class="d-flex justify-between align-center mb-6">
+      <div>
+        <span class="section-label">Nouvelles Arrivées</span>
+        <h2 class="section-title" id="new-heading">Dernières Nouveautés</h2>
+      </div>
+      <a href="collections.html?filter=new" class="btn btn-outline-gold">Voir tout</a>
+    </div>
+    <div class="slider-track" id="newArrivalsTrack" role="list" aria-label="Nouveautés">
+      <!-- Injected by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+  FEATURES
+══════════════════════════════════════════ -->
+<section style="background: var(--dark2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <div class="container">
+    <div class="features-grid">
+      <div class="feature-card animate-in">
+        <i class="fas fa-shield-alt feature-icon" aria-hidden="true"></i>
+        <div class="feature-title">Authenticité Garantie</div>
+        <p class="feature-desc">Chaque flacon est sélectionné auprès de distributeurs agréés. Certificat d'authenticité disponible sur demande.</p>
+      </div>
+      <div class="feature-card animate-in" style="transition-delay:0.1s">
+        <i class="fas fa-globe-africa feature-icon" aria-hidden="true"></i>
+        <div class="feature-title">Livraison Afrique</div>
+        <p class="feature-desc">Dakar, Abidjan, Bamako, Lagos, Accra — et dans toute la diaspora. Suivi en temps réel par WhatsApp.</p>
+      </div>
+      <div class="feature-card animate-in" style="transition-delay:0.2s">
+        <i class="fas fa-mobile-alt feature-icon" aria-hidden="true"></i>
+        <div class="feature-title">Paiement Mobile</div>
+        <p class="feature-desc">Wave, Orange Money, carte bancaire, ou paiement à la livraison à Dakar. Simple, rapide, sécurisé.</p>
+      </div>
+      <div class="feature-card animate-in" style="transition-delay:0.3s">
+        <i class="fas fa-gift feature-icon" aria-hidden="true"></i>
+        <div class="feature-title">Emballage Luxe</div>
+        <p class="feature-desc">Chaque commande est emballée dans notre écrin signature : boîte en carton doré, ruban de velours, carte personnalisée.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+  MEILLEURES VENTES
+══════════════════════════════════════════ -->
+<section id="bestsellers" aria-labelledby="bs-heading">
+  <div class="container">
+    <div class="text-center mb-6">
+      <span class="section-label">Les favoris de nos clients</span>
+      <h2 class="section-title" id="bs-heading">Meilleures Ventes</h2>
+      <div class="divider-gold"></div>
+      <p style="color:var(--text-muted);max-width:480px;margin:0 auto;font-size:0.9rem">
+        Ces fragrances ont conquis des milliers de clients de Dakar à Paris. Découvrez pourquoi.
+      </p>
+    </div>
+
+    <div class="products-grid" id="bestsellersGrid" role="list" aria-label="Meilleures ventes">
+      <!-- Injected by JS -->
+    </div>
+
+    <div class="text-center" style="margin-top:3rem">
+      <a href="#catalogue-complet" class="btn btn-outline-gold btn-lg">
+        Découvrir tous les 47 parfums <i class="fas fa-arrow-down"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+  CATALOGUE COMPLET — TOUS LES PARFUMS
+══════════════════════════════════════════ -->
+<section id="catalogue-complet" style="background: var(--dark); padding: 5rem 0; border-top: 1px solid var(--border);" aria-labelledby="all-heading">
+  <div class="container">
+    <div class="text-center mb-6">
+      <span class="section-label">Catalogue Officiel · Maison AURELYS</span>
+      <h2 class="section-title" id="all-heading">Tous Nos Parfums</h2>
+      <div class="divider-gold"></div>
+      <p style="color:var(--text-muted);max-width:540px;margin:0 auto 1.5rem;font-size:0.92rem">
+        Découvrez notre collection complète de fragrances d'exception : trésors d'Orient, flacons mythiques de grandes maisons et coffrets prestigieux.
+      </p>
+
+      <!-- Onglets de filtrage rapide -->
+      <div class="filter-tabs" style="display:flex;gap:0.5rem;justify-content:center;flex-wrap:wrap;margin-bottom:2.5rem" id="homeFilterTabs">
+        <button class="btn btn-sm btn-gold active" data-filter="all">Tous les Parfums (<span id="allCount">47</span>)</button>
+        <button class="btn btn-sm btn-outline-gold" data-filter="oriental">Orientaux & Oud</button>
+        <button class="btn btn-sm btn-outline-gold" data-filter="bestseller">Bestsellers</button>
+        <button class="btn btn-sm btn-outline-gold" data-filter="femme">Femme</button>
+        <button class="btn btn-sm btn-outline-gold" data-filter="homme">Homme</button>
+        <button class="btn btn-sm btn-outline-gold" data-filter="mixte">Mixte</button>
+      </div>
+    </div>
+
+    <!-- Grille de tous les parfums -->
+    <div class="products-grid" id="homeAllProductsGrid" role="list" aria-label="Tous les parfums">
+      <!-- Injected by JS -->
+    </div>
+
+    <div class="text-center" style="margin-top:3.5rem">
+      <a href="collections.html" class="btn btn-gold btn-lg">
+        Voir le Catalogue avec Filtres Avancés <i class="fas fa-sliders-h" style="margin-left:0.5rem"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+  BRANDS BAND
+══════════════════════════════════════════ -->
+<div class="brands-band" aria-label="Marques disponibles">
+  <div class="container">
+    <p style="text-align:center;font-size:0.65rem;letter-spacing:0.3em;color:var(--text-muted);text-transform:uppercase;margin-bottom:1.5rem">
+      Marques distribuées
+    </p>
+    <div class="brands-track">
+      <span class="brand-name">Lattafa</span>
+      <span class="brand-name">Armaf</span>
+      <span class="brand-name">Dior</span>
+      <span class="brand-name">Chanel</span>
+      <span class="brand-name">Tom Ford</span>
+      <span class="brand-name">Creed</span>
+      <span class="brand-name">YSL</span>
+      <span class="brand-name">Versace</span>
+      <span class="brand-name">Montale</span>
+      <span class="brand-name">Al Haramain</span>
+      <span class="brand-name">Initio</span>
+      <span class="brand-name">Arabian Oud</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+  ABOUT TEASER
+══════════════════════════════════════════ -->
+<section id="about-teaser" style="background: var(--dark2);">
+  <div class="container">
+    <div class="about-grid">
+      <div class="animate-in-left">
+        <div class="about-image">
+          <div style="width:100%;height:100%;background:linear-gradient(135deg,#1C0A00 0%,#5C2D0A 50%,#C8A96E 100%);display:flex;align-items:center;justify-content:center;font-size:8rem;color:rgba(200,169,110,0.1)">
+            <i class="fas fa-store" aria-hidden="true"></i>
+          </div>
+          <!-- ⬇️ REMPLACEZ PAR VOTRE PHOTO DE BOUTIQUE -->
+          <!-- <img src="images/boutique.jpg" alt="La boutique Maison AURELYS à Dakar" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"> -->
+          <div class="img-placeholder-label">📍 Photo de votre boutique</div>
+        </div>
+      </div>
+
+      <div class="animate-in">
+        <span class="section-label">Notre Histoire</span>
+        <h2 class="section-title">L'âme de <br><span class="text-shimmer">Maison AURELYS</span></h2>
+        <div class="divider-gold" style="margin:1.5rem 0"></div>
+        <p style="color:var(--text-muted);line-height:1.9;margin-bottom:1.5rem">
+          Née de la passion pour les fragrances rares et de la conviction que l'excellence olfactive appartient à toutes les élégances africaines, Maison AURELYS est votre adresse de référence pour les parfums authentiques à Dakar et en Afrique de l'Ouest.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.9;margin-bottom:2rem">
+          Chaque parfum de notre collection a été sélectionné avec soin, en accord avec les goûts et les sensibilités de notre clientèle — des accords orientaux qui réchauffent l'âme aux fragrances occidentales les plus raffinées.
+        </p>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:2rem">
+          <div class="about-stat">
+            <div class="about-stat-number">500+</div>
+            <div style="font-size:0.8rem;color:var(--text-muted)">Clients satisfaits</div>
+          </div>
+          <div class="about-stat">
+            <div class="about-stat-number">100%</div>
+            <div style="font-size:0.8rem;color:var(--text-muted)">Originaux certifiés</div>
+          </div>
+        </div>
+
+        <a href="about.html" class="btn btn-gold">En savoir plus <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+  GUIDE TEASER
+══════════════════════════════════════════ -->
+<section id="guide-teaser">
+  <div class="container">
+    <div style="background:linear-gradient(135deg, var(--dark2) 0%, #1C0A00 50%, var(--dark2) 100%);border:1px solid var(--border);border-radius:var(--radius-lg);padding:4rem 3rem;text-align:center">
+      <i class="fas fa-compass" style="font-size:3rem;color:var(--gold);margin-bottom:1.5rem;display:block" aria-hidden="true"></i>
+      <span class="section-label">Guide Olfactif</span>
+      <h2 class="section-title" style="margin-bottom:1rem">Quel est votre parfum idéal ?</h2>
+      <p style="color:var(--text-muted);max-width:480px;margin:0 auto 2rem;font-size:0.9rem;line-height:1.8">
+        Répondez à 4 questions simples — occasion, humeur, famille olfactive, budget — et notre algorithme vous recommande les fragrances parfaites pour vous.
+      </p>
+      <a href="guide.html" class="btn btn-gold btn-lg">
+        Commencer le quiz <i class="fas fa-arrow-right"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+  TÉMOIGNAGES
+══════════════════════════════════════════ -->
+<section id="testimonials" style="background:var(--dark2);border-top:1px solid var(--border)">
+  <div class="container">
+    <div class="text-center mb-6">
+      <span class="section-label">Ils nous font confiance</span>
+      <h2 class="section-title">Témoignages clients</h2>
+      <div class="divider-gold"></div>
+    </div>
+
+    <div class="testimonials-grid" id="testimonialsGrid">
+      <!-- Injected by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+  NEWSLETTER
+══════════════════════════════════════════ -->
+<section>
+  <div class="container">
+    <div class="newsletter animate-in">
+      <i class="fas fa-envelope-open-text" style="font-size:2rem;color:var(--gold);margin-bottom:1rem;display:block" aria-hidden="true"></i>
+      <h2 class="section-title" style="margin-bottom:0.5rem">L'Essentiel AURELYS</h2>
+      <p style="color:var(--text-muted);font-size:0.9rem">
+        Recevez en avant-première nos nouveautés, offres exclusives et conseils olfactifs.<br>
+        <strong style="color:var(--gold)">−10% offerts</strong> sur votre première commande pour tout abonné.
+      </p>
+      <form class="newsletter-form" id="newsletterForm" onsubmit="handleNewsletter(event)">
+        <input type="email" id="newsletterEmail" placeholder="Votre adresse e-mail…" aria-label="Adresse email pour la newsletter" required />
+        <button type="submit" class="btn btn-gold">S'abonner</button>
+      </form>
+      <p id="newsletterMsg" style="font-size:0.78rem;color:var(--gold);margin-top:0.75rem;display:none"></p>
+      <p style="font-size:0.72rem;color:var(--text-muted);margin-top:0.5rem">
+        Pas de spam, désinscription en un clic. 🔒
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+  FOOTER
+══════════════════════════════════════════ -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <!-- Brand -->
+      <div class="footer-logo-col">
+        <div class="navbar-logo" style="margin-bottom:1rem">
+          <span class="logo-maison">Maison</span>
+          <span class="logo-name">AURELYS</span>
+        </div>
+        <p class="footer-desc">
+          Votre adresse de référence pour les parfums de luxe authentiques au Sénégal et en Afrique de l'Ouest. Livraison sécurisée, paiement mobile, service personnalisé.
+        </p>
+        <div class="social-links" aria-label="Réseaux sociaux">
+          <a href="#" class="social-link" aria-label="Instagram">
+            <i class="fab fa-instagram" aria-hidden="true"></i>
+          </a>
+          <a href="#" class="social-link" aria-label="TikTok">
+            <i class="fab fa-tiktok" aria-hidden="true"></i>
+          </a>
+          <a href="#" class="social-link" aria-label="Snapchat">
+            <i class="fab fa-snapchat" aria-hidden="true"></i>
+          </a>
+          <a href="https://wa.me/221XXXXXXXXX" class="social-link" aria-label="WhatsApp">
+            <i class="fab fa-whatsapp" aria-hidden="true"></i>
+          </a>
+          <a href="#" class="social-link" aria-label="Facebook">
+            <i class="fab fa-facebook-f" aria-hidden="true"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Collections -->
+      <nav class="footer-col" aria-label="Collections">
+        <h4>Collections</h4>
+        <a href="collections.html?g=homme">Homme</a>
+        <a href="collections.html?g=femme">Femme</a>
+        <a href="collections.html?g=mixte">Mixte</a>
+        <a href="collections.html?cat=oriental">Orientaux & Oud</a>
+        <a href="collections.html?cat=coffrets">Coffrets Cadeaux</a>
+        <a href="collections.html?cat=huiles">Huiles & Encens</a>
+        <a href="collections.html?filter=new">Nouveautés</a>
+        <a href="collections.html?filter=bestseller">Meilleures ventes</a>
+      </nav>
+
+      <!-- Info -->
+      <nav class="footer-col" aria-label="Informations">
+        <h4>Informations</h4>
+        <a href="about.html">Notre histoire</a>
+        <a href="guide.html">Guide olfactif</a>
+        <a href="contact.html">Contact & Boutique</a>
+        <a href="cart.html">Mon panier</a>
+        <a href="#livraison">Livraison & Retours</a>
+        <a href="#cgv">Conditions générales</a>
+        <a href="#confidentialite">Confidentialité</a>
+      </nav>
+
+      <!-- Contact -->
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.9">
+          <i class="fas fa-map-marker-alt" style="color:var(--gold);margin-right:0.5rem"></i>
+          Dakar, Sénégal<br>
+          <i class="fab fa-whatsapp" style="color:var(--gold);margin-right:0.5rem"></i>
+          <a href="https://wa.me/221775505695" style="color:var(--text-muted)">+221 77 550 56 95</a><br>
+          <i class="fas fa-envelope" style="color:var(--gold);margin-right:0.5rem"></i>
+          <a href="mailto:contact@maisonaurelys.sn" style="color:var(--text-muted)">contact@maisonaurelys.sn</a>
+        </p>
+        <div style="margin-top:1.5rem">
+          <p style="font-size:0.65rem;color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.75rem">Paiements acceptés</p>
+          <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
+            <span style="background:var(--dark3);border:1px solid var(--border);padding:0.3rem 0.6rem;border-radius:2px;font-size:0.65rem;color:var(--text-muted)">Wave</span>
+            <span style="background:var(--dark3);border:1px solid var(--border);padding:0.3rem 0.6rem;border-radius:2px;font-size:0.65rem;color:var(--text-muted)">Orange Money</span>
+            <span style="background:var(--dark3);border:1px solid var(--border);padding:0.3rem 0.6rem;border-radius:2px;font-size:0.65rem;color:var(--text-muted)">Visa/MC</span>
+            <span style="background:var(--dark3);border:1px solid var(--border);padding:0.3rem 0.6rem;border-radius:2px;font-size:0.65rem;color:var(--text-muted)">Livraison</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2025 Maison AURELYS · Tous droits réservés</span>
+      <span>Conçu avec ♥ à Dakar, Sénégal</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ══════════════════════════════════════════
+  WHATSAPP FLOATING BUTTON
+══════════════════════════════════════════ -->
+<div class="wa-float" aria-label="Commander sur WhatsApp">
+  <span class="wa-bubble">Commandez sur WhatsApp 🛍️</span>
+  <a href="https://wa.me/221775505695?text=Bonjour%20Maison%20AURELYS%2C%20je%20souhaite%20avoir%20des%20informations%20sur%20vos%20parfums."
+     class="wa-btn"
+     target="_blank"
+     rel="noopener"
+     aria-label="Ouvrir WhatsApp">
+    <div class="wa-pulse" aria-hidden="true"></div>
+    <i class="fab fa-whatsapp" aria-hidden="true"></i>
+  </a>
+</div>
+
+<!-- ══════════════════════════════════════════
+  SCRIPTS
+══════════════════════════════════════════ -->
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/images.js"></script>
+<script src="js/main.js"></script>
+<script>
+  // ── Page-specific init ──────────────────────────────────
+  document.addEventListener("DOMContentLoaded", () => {
+    // New arrivals
+    const newTrack = document.getElementById("newArrivalsTrack");
+    if (newTrack && window.AURELYS) {
+      window.AURELYS.getNewArrivals().forEach(p => {
+        newTrack.insertAdjacentHTML("beforeend", renderProductCard(p));
+      });
+    }
+
+    // Bestsellers (top 8)
+    const bsGrid = document.getElementById("bestsellersGrid");
+    if (bsGrid && window.AURELYS) {
+      window.AURELYS.getBestsellers().slice(0, 8).forEach(p => {
+        bsGrid.insertAdjacentHTML("beforeend", renderProductCard(p));
+      });
+    }
+
+    // Tous les parfums sur la page d'accueil (Catalogue complet)
+    const allGrid = document.getElementById("homeAllProductsGrid");
+    const countEl = document.getElementById("allCount");
+    if (allGrid && window.AURELYS) {
+      const allProducts = window.AURELYS.products || [];
+      if (countEl) countEl.textContent = allProducts.length;
+
+      function renderHomeProducts(filterType) {
+        let filtered = allProducts;
+        if (filterType === "oriental") {
+          filtered = allProducts.filter(p => (p.category || []).includes("oriental"));
+        } else if (filterType === "bestseller") {
+          filtered = allProducts.filter(p => (p.badges || []).includes("bestseller"));
+        } else if (filterType === "femme" || filterType === "homme" || filterType === "mixte") {
+          filtered = allProducts.filter(p => p.gender === filterType || (filterType === "mixte" && p.gender === "mixte"));
+        }
+
+        allGrid.innerHTML = filtered.map(p => renderProductCard(p)).join("");
+      }
+
+      // Initial render: tous les parfums
+      renderHomeProducts("all");
+
+      // Onglets de filtre accueil
+      const tabs = document.querySelectorAll("#homeFilterTabs button");
+      tabs.forEach(tab => {
+        tab.addEventListener("click", () => {
+          tabs.forEach(t => {
+            t.classList.remove("active", "btn-gold");
+            t.classList.add("btn-outline-gold");
+          });
+          tab.classList.add("active", "btn-gold");
+          tab.classList.remove("btn-outline-gold");
+          renderHomeProducts(tab.dataset.filter);
+        });
+      });
+    }
+
+    // Testimonials
+    const testimonials = [
+      { text: "J'avais commandé Lattafa Khamrah sur recommandation d'une amie — livré en 24h à Dakar, emballage de luxe, original garanti. Je recommande les yeux fermés !", name: "Aïssatou B.", city: "Dakar, Plateau", rating: 5, initials: "AB" },
+      { text: "Baccarat Rouge 540, le rêve de toute femme. Maison AURELYS l'a livré à Abidjan en une semaine, bien emballé, avec une petite carte personnalisée. Magnifique service !", name: "Mariame K.", city: "Abidjan, Cocody", rating: 5, initials: "MK" },
+      { text: "Club de Nuit Intense Man pour mon frère pour sa remise de diplôme. Le sillage est incroyable et le prix imbattable pour un original. Merci AURELYS !", name: "Ibrahima D.", city: "Dakar, Almadies", rating: 5, initials: "ID" },
+      { text: "La huile de oud premium est exceptionnelle — je suis habitué à acheter à Dubaï mais la qualité ici est comparable et le service est bien meilleur !", name: "Moussa T.", city: "Bamako, ACI 2000", rating: 5, initials: "MT" },
+      { text: "Commande passée sur WhatsApp à 20h, livrée le lendemain matin à Thiès. C'est exactement ce que j'attendais d'une parfumerie de luxe locale. Bravo !", name: "Fatima S.", city: "Thiès", rating: 5, initials: "FS" },
+      { text: "Le coffret Nuit Orientale était le cadeau parfait pour le mariage de ma sœur. Tout le monde a été impressionné par la présentation. On en redemande !", name: "Cheikhou N.", city: "Dakar, Sacré-Cœur", rating: 5, initials: "CN" }
+    ];
+
+    const tGrid = document.getElementById("testimonialsGrid");
+    testimonials.forEach(t => {
+      tGrid.insertAdjacentHTML("beforeend", `
+        <div class="testimonial-card animate-in">
+          <div class="testimonial-text">${t.text}</div>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">${t.initials}</div>
+            <div>
+              <div class="testimonial-name">${t.name}</div>
+              <div class="testimonial-city"><i class="fas fa-map-marker-alt" style="font-size:0.6rem;margin-right:0.3rem"></i>${t.city}</div>
+              <div class="stars" aria-label="${t.rating} étoiles sur 5">
+                ${"★".repeat(t.rating)}${"☆".repeat(5-t.rating)}
+              </div>
+            </div>
+          </div>
+        </div>
+      `);
+    });
+  });
+
+  function handleNewsletter(e) {
+    e.preventDefault();
+    const msg = document.getElementById("newsletterMsg");
+    msg.style.display = "block";
+    msg.textContent = "✦ Merci ! Votre code −10% vous sera envoyé sous peu.";
+    document.getElementById("newsletterEmail").value = "";
+  }
+</script>
+</body>
+</html>

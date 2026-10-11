@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Collections — Maison AURELYS | Parfums de Luxe Dakar</title>
+  <meta name="description" content="Explorez toute la collection Maison AURELYS : parfums orientaux, oud, maisons françaises, mixtes, coffrets cadeaux. Filtrez par genre, famille olfactive, prix. Livraison Dakar & Afrique." />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    .collections-layout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    .sidebar-filters {
+      position: sticky;
+      top: 90px;
+      background: var(--dark2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+    }
+
+    .sidebar-title {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+    }
+
+    .filter-section { margin-bottom: 2rem; }
+
+    .filter-section-title {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.875rem;
+    }
+
+    .filter-checkboxes { display: flex; flex-direction: column; gap: 0.5rem; }
+
+    .filter-check-label {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .filter-check-label:hover { color: var(--ivory); }
+
+    .filter-check-label input[type="checkbox"] {
+      accent-color: var(--gold);
+      width: 14px; height: 14px;
+      cursor: pointer;
+    }
+
+    .price-range-track {
+      position: relative;
+      height: 3px;
+      background: var(--dark4);
+      border-radius: 2px;
+      margin: 1rem 0;
+    }
+
+    .price-range-fill {
+      position: absolute;
+      height: 100%;
+      background: linear-gradient(90deg, var(--gold-dark), var(--gold));
+    }
+
+    .price-range input[type="range"] {
+      position: absolute;
+      width: 100%;
+      height: 3px;
+      background: transparent;
+      pointer-events: none;
+      top: 0;
+      -webkit-appearance: none;
+    }
+
+    .price-range input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px; height: 14px;
+      background: var(--gold);
+      border-radius: 50%;
+      pointer-events: all;
+      cursor: pointer;
+    }
+
+    .price-values {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    .filter-mobile-toggle {
+      display: none;
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+
+    .results-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .results-count {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .active-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .active-filter-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.25rem 0.75rem;
+      background: rgba(200,169,110,0.1);
+      border: 1px solid var(--border-2);
+      border-radius: 2px;
+      font-size: 0.72rem;
+      color: var(--gold);
+    }
+
+    .active-filter-tag button {
+      color: var(--text-muted);
+      font-size: 0.65rem;
+      transition: color 0.2s;
+    }
+
+    .active-filter-tag button:hover { color: var(--ivory); }
+
+    .view-toggle {
+      display: flex;
+      gap: 0.25rem;
+    }
+
+    .view-btn {
+      width: 32px; height: 32px;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: var(--transition-fast);
+    }
+
+    .view-btn.active, .view-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    .products-list { display: flex; flex-direction: column; gap: 1rem; }
+
+    .product-list-item {
+      display: grid;
+      grid-template-columns: 100px 1fr auto;
+      gap: 1.5rem;
+      align-items: center;
+      background: var(--dark2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+
+    .product-list-item:hover {
+      border-color: var(--border-2);
+      transform: translateX(4px);
+    }
+
+    .product-list-img {
+      width: 100px; height: 120px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: rgba(200,169,110,0.3);
+      flex-shrink: 0;
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--text-muted);
+    }
+
+    .no-results i { font-size: 3rem; opacity: 0.2; margin-bottom: 1.5rem; }
+
+    @media (max-width: 1024px) {
+      .collections-layout { grid-template-columns: 1fr; }
+      .sidebar-filters { position: static; }
+      .filter-mobile-toggle { display: flex; }
+      .sidebar-filters { display: none; }
+      .sidebar-filters.open { display: block; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV (same as index) -->
+<nav class="navbar scrolled" id="navbar" role="navigation" aria-label="Navigation principale">
+  <div class="container">
+    <a href="index.html" class="navbar-logo" aria-label="Maison AURELYS">
+      <span class="logo-maison">Maison</span>
+      <span class="logo-name">AURELYS</span>
+    </a>
+    <ul class="navbar-nav" role="list">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="collections.html" class="active">Collections</a></li>
+      <li><a href="product.html">Produits</a></li>
+      <li><a href="guide.html">Guide olfactif</a></li>
+      <li><a href="about.html">À propos</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="navbar-actions">
+      <button class="currency-toggle" id="currencyToggle">FCFA</button>
+      <div class="lang-selector">
+        <select id="langSelect"><option>FR</option><option>EN</option></select>
+      </div>
+      <button class="nav-btn" id="searchBtn" aria-label="Rechercher"><i class="fas fa-search"></i></button>
+      <button class="nav-btn" id="cartToggleBtn" aria-label="Panier">
+        <i class="fas fa-shopping-bag"></i>
+        <span class="cart-badge">0</span>
+      </button>
+      <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+<div class="search-bar" id="searchBar">
+  <i class="fas fa-search" style="color:var(--text-muted)"></i>
+  <input type="search" id="searchInput" placeholder="Rechercher…" />
+  <button id="searchClose"><i class="fas fa-times" style="color:var(--text-muted)"></i></button>
+</div>
+<nav class="mobile-nav" id="mobileNav">
+  <div class="mobile-nav-header">
+    <div class="navbar-logo"><span class="logo-maison">Maison</span><span class="logo-name">AURELYS</span></div>
+    <button class="mobile-nav-close" id="mobileNavClose"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="mobile-nav-links">
+    <a href="index.html">Accueil</a>
+    <a href="collections.html">Collections</a>
+    <a href="guide.html">Guide olfactif</a>
+    <a href="about.html">À propos</a>
+    <a href="contact.html">Contact</a>
+    <a href="cart.html">Panier</a>
+  </div>
+</nav>
+<div class="nav-overlay" id="navOverlay"></div>
+<aside class="mini-cart" id="miniCart">
+  <div class="mini-cart-header">
+    <h3 style="font-family:var(--ff-serif);font-size:1.3rem">Votre panier</h3>
+    <button id="miniCartClose" class="mobile-nav-close"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="mini-cart-body" id="miniCartBody"></div>
+  <div class="mini-cart-footer" id="miniCartFooter" style="display:none">
+    <div class="d-flex justify-between mb-2" style="font-size:0.85rem;color:var(--text-muted)">
+      <span>Sous-total</span><span id="miniCartSubtotal" style="color:var(--ivory)"></span>
+    </div>
+    <a href="cart.html" class="btn btn-gold w-full" style="justify-content:center;display:flex">Finaliser la commande</a>
+  </div>
+</aside>
+
+<!-- PAGE HERO -->
+<div class="page-hero" style="background:linear-gradient(135deg,var(--dark) 0%,#1C0A00 50%,var(--dark) 100%)">
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="index.html">Accueil</a>
+      <span class="breadcrumb-sep">›</span>
+      <span>Collections</span>
+    </div>
+    <h1 style="font-size:clamp(2rem,4vw,3.5rem)">Toutes les Collections</h1>
+    <p style="color:var(--text-muted);margin-top:0.75rem">
+      <span id="heroFilterDesc">Explorez notre catalogue complet de parfums authentiques</span>
+    </p>
+  </div>
+</div>
+
+<!-- QUICK FILTERS BAR -->
+<div style="background:var(--dark2);border-bottom:1px solid var(--border);padding:1rem 0;position:sticky;top:72px;z-index:100">
+  <div class="container">
+    <div class="filters-bar" role="group" aria-label="Filtres rapides">
+      <button class="filter-btn active" data-cat="all">Tout</button>
+      <button class="filter-btn" data-cat="homme">Homme</button>
+      <button class="filter-btn" data-cat="femme">Femme</button>
+      <button class="filter-btn" data-cat="mixte">Mixte</button>
+      <button class="filter-btn" data-cat="oriental">Orientaux & Oud</button>
+      <button class="filter-btn" data-cat="boise">Boisé</button>
+      <button class="filter-btn" data-cat="floral">Floral</button>
+      <button class="filter-btn" data-cat="coffrets">Coffrets</button>
+      <button class="filter-btn" data-cat="huiles">Huiles & Encens</button>
+      <button class="filter-btn" data-cat="encens">Encens</button>
+      <span style="margin-left:auto;flex-shrink:0;display:flex;align-items:center;gap:0.75rem">
+        <select class="sort-select" id="sortSelect" aria-label="Trier par">
+          <option value="default">Trier par</option>
+          <option value="price-asc">Prix croissant</option>
+          <option value="price-desc">Prix décroissant</option>
+          <option value="popular">Popularité</option>
+          <option value="new">Nouveautés</option>
+          <option value="rating">Note</option>
+        </select>
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div style="margin-top:3rem;margin-bottom:5rem">
+  <div class="container">
+
+    <button class="btn btn-dark filter-mobile-toggle" id="filterMobileBtn">
+      <i class="fas fa-sliders-h"></i> Filtres avancés
+    </button>
+
+    <div class="collections-layout">
+
+      <!-- SIDEBAR -->
+      <aside class="sidebar-filters" id="sidebarFilters" aria-label="Filtres">
+        <div class="sidebar-title"><i class="fas fa-sliders-h" style="margin-right:0.5rem"></i> Filtres</div>
+
+        <!-- Genre -->
+        <div class="filter-section">
+          <div class="filter-section-title">Genre</div>
+          <div class="filter-checkboxes">
+            <label class="filter-check-label">
+              <input type="checkbox" value="homme" class="filter-gender" /> Homme
+            </label>
+            <label class="filter-check-label">
+              <input type="checkbox" value="femme" class="filter-gender" /> Femme
+            </label>
+            <label class="filter-check-label">
+              <input type="checkbox" value="mixte" class="filter-gender" /> Mixte / Unisexe
+            </label>
+          </div>
+        </div>
+
+        <!-- Famille olfactive -->
+        <div class="filter-section">
+          <div class="filter-section-title">Famille olfactive</div>
+          <div class="filter-checkboxes">
+            <label class="filter-check-label">
+              <input type="checkbox" value="oriental" class="filter-cat" /> Oriental & Oud
+            </label>
+            <label class="filter-check-label">
+              <input type="checkbox" value="boise" class="filter-cat" /> Boisé
+            </label>
+            <label class="filter-check-label">
+              <input type="checkbox" value="floral" class="filter-cat" /> Floral
+            </label>
+            <label class="filter-check-label">
+              <input type="checkbox" value="coffrets" class="filter-cat" /> Coffrets
+            </label>
+            <label class="filter-check-label">
+              <input type="checkbox" value="huiles" class="filter-cat" /> Huiles & Attars
+            </label>
+            <label class="filter-check-label">
+              <input type="checkbox" value="encens" class="filter-cat" /> Encens & Bakhour
+            </label>
+          </div>
+        </div>
+
+        <!-- Badges -->
+        <div class="filter-section">
+          <div class="filter-section-title">Spécial</div>
+          <div class="filter-checkboxes">
+            <label class="filter-check-label">
+              <input type="checkbox" value="bestseller" class="filter-badge" /> Bestsellers
+            </label>
+            <label class="filter-check-label">
+              <input type="checkbox" value="new" class="filter-badge" /> Nouveautés
+            </label>
+            <label class="filter-check-label">
+              <input type="checkbox" value="limited" class="filter-badge" /> Éditions limitées
+            </label>
+          </div>
+        </div>
+
+        <!-- Price range -->
+        <div class="filter-section">
+          <div class="filter-section-title">Budget (FCFA)</div>
+          <div class="price-range" style="position:relative;height:20px;margin:1.5rem 0 0.5rem">
+            <div class="price-range-track">
+              <div class="price-range-fill" id="priceFill" style="left:0;right:0"></div>
+            </div>
+            <input type="range" id="priceMin" min="0" max="200000" value="0" step="5000" />
+            <input type="range" id="priceMax" min="0" max="200000" value="200000" step="5000" />
+          </div>
+          <div class="price-values">
+            <span id="priceMinLabel">0 FCFA</span>
+            <span id="priceMaxLabel">200 000 FCFA</span>
+          </div>
+        </div>
+
+        <!-- Reset -->
+        <button class="btn btn-outline w-full mt-2" id="resetFilters">Réinitialiser les filtres</button>
+      </aside>
+
+      <!-- RESULTS -->
+      <div>
+        <div class="results-header">
+          <div class="results-count" id="resultsCount" aria-live="polite">Chargement…</div>
+          <div style="display:flex;align-items:center;gap:1rem">
+            <div class="view-toggle">
+              <button class="view-btn active" id="viewGrid" aria-label="Vue grille" title="Vue grille">
+                <i class="fas fa-th"></i>
+              </button>
+              <button class="view-btn" id="viewList" aria-label="Vue liste" title="Vue liste">
+                <i class="fas fa-list"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="active-filters" id="activeFiltersBar" aria-label="Filtres actifs"></div>
+
+        <div class="products-grid" id="productsGrid" role="list" aria-label="Produits">
+          <!-- Injected by JS -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem;margin-bottom:2rem;padding-bottom:2rem;border-bottom:1px solid var(--border)">
+      <div class="navbar-logo">
+        <span class="logo-maison">Maison</span>
+        <span class="logo-name">AURELYS</span>
+      </div>
+      <div style="display:flex;gap:0.75rem">
+        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+        <a href="https://wa.me/221775505695" class="social-link"><i class="fab fa-whatsapp"></i></a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Maison AURELYS · Tous droits réservés</span>
+      <div style="display:flex;gap:1.5rem">
+        <a href="index.html" style="font-size:0.75rem;color:var(--text-muted)">Accueil</a>
+        <a href="about.html" style="font-size:0.75rem;color:var(--text-muted)">À propos</a>
+        <a href="contact.html" style="font-size:0.75rem;color:var(--text-muted)">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="wa-float">
+  <span class="wa-bubble">Commander sur WhatsApp</span>
+  <a href="https://wa.me/221775505695?text=Bonjour%20Maison%20AURELYS%2C%20je%20souhaite%20avoir%20des%20informations%20sur%20vos%20parfums." target="_blank" rel="noopener" class="wa-btn" aria-label="WhatsApp">
+    <div class="wa-pulse"></div>
+    <i class="fab fa-whatsapp"></i>
+  </a>
+</div>
+
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/images.js"></script>
+<script src="js/main.js"></script>
+<script>
+// ─── Collections page logic ──────────────────────────────────
+
+let currentCat    = "all";
+let activeGenders = [];
+let activeCats    = [];
+let activeBadges  = [];
+let priceMin      = 0;
+let priceMax      = 200000;
+let sortBy        = "default";
+let viewMode      = "grid";
+
+// Read URL params
+function readUrlParams() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("cat"))    currentCat = params.get("cat");
+  if (params.get("g"))      activeGenders = [params.get("g")];
+  if (params.get("filter")) {
+    const f = params.get("filter");
+    if (f === "new")        activeBadges = ["new"];
+    if (f === "bestseller") activeBadges = ["bestseller"];
+  }
+}
+
+function applyFiltersAndRender() {
+  let products = [...window.AURELYS.products];
+
+  // Quick filter (top bar)
+  if (currentCat !== "all") {
+    if (["homme","femme","mixte"].includes(currentCat)) {
+      products = products.filter(p => p.gender === currentCat || (currentCat === "mixte" && p.gender === "mixte"));
+    } else {
+      products = products.filter(p => p.category.includes(currentCat));
+    }
+  }
+
+  // Sidebar: genders
+  if (activeGenders.length) {
+    products = products.filter(p => activeGenders.includes(p.gender) || activeGenders.includes("mixte"));
+  }
+
+  // Sidebar: categories
+  if (activeCats.length) {
+    products = products.filter(p => p.category.some(c => activeCats.includes(c)));
+  }
+
+  // Sidebar: badges
+  if (activeBadges.length) {
+    products = products.filter(p => activeBadges.some(b => p.badges.includes(b)));
+  }
+
+  // Price
+  products = products.filter(p => p.price_fcfa >= priceMin && p.price_fcfa <= priceMax);
+
+  // Sort
+  if (sortBy === "price-asc")  products.sort((a,b) => a.price_fcfa - b.price_fcfa);
+  if (sortBy === "price-desc") products.sort((a,b) => b.price_fcfa - a.price_fcfa);
+  if (sortBy === "popular")    products.sort((a,b) => b.reviews - a.reviews);
+  if (sortBy === "new")        products.sort((a,b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0));
+  if (sortBy === "rating")     products.sort((a,b) => b.rating - a.rating);
+
+  // Render
+  const grid = document.getElementById("productsGrid");
+  const count = document.getElementById("resultsCount");
+
+  if (products.length === 0) {
+    grid.innerHTML = `<div class="no-results" style="grid-column:1/-1">
+      <i class="fas fa-search" style="display:block;margin-bottom:1rem"></i>
+      <h3 style="font-family:var(--ff-serif);font-size:1.5rem;color:var(--ivory);margin-bottom:0.5rem">Aucun résultat</h3>
+      <p>Essayez d'élargir vos critères de filtre.</p>
+      <button class="btn btn-outline-gold" style="margin-top:1.5rem" onclick="resetAllFilters()">Réinitialiser</button>
+    </div>`;
+  } else {
+    if (viewMode === "grid") {
+      grid.className = "products-grid";
+      grid.innerHTML = products.map(p => window.renderProductCard(p)).join("");
+    } else {
+      grid.className = "products-list";
+      grid.innerHTML = products.map(p => renderListItem(p)).join("");
+    }
+  }
+
+  count.textContent = `${products.length} parfum${products.length > 1 ? "s" : ""} trouvé${products.length > 1 ? "s" : ""}`;
+  renderActiveFilters();
+}
+
+function renderListItem(product) {
+  const price = new Intl.NumberFormat("fr-FR").format(product.price_fcfa) + " FCFA";
+  const imgSrc = product.image || "images/parfums/fallback-aurelys.jpg";
+  return `
+    <div class="product-list-item animate-in" onclick="window.location.href='product.html?id=${product.id}'">
+      <div class="product-list-img" style="background:#0D0D0F;border:1px solid rgba(212,175,55,0.2);border-radius:var(--radius);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;aspect-ratio:1/1;width:80px;height:80px;flex-shrink:0">
+        <img src="${imgSrc}" alt="${product.name} de ${product.brand}" style="width:100%;height:100%;object-fit:contain;padding:6px" onerror="if(window.aurelysFallback)window.aurelysFallback(this);else this.src='images/parfums/fallback-aurelys.jpg'" loading="lazy" />
+      </div>
+      <div>
+        <div class="product-brand">${product.brand}</div>
+        <div class="product-name" style="font-family:var(--ff-serif);font-size:1.2rem;color:var(--ivory);margin:0.25rem 0">${product.name}</div>
+        <div class="product-desc" style="font-size:0.8rem;color:var(--text-muted);margin:0.25rem 0 0.75rem">${product.short_desc}</div>
+        <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
+          ${product.badges.map(b => {
+            const cls = {bestseller:'badge-bestseller',new:'badge-new',limited:'badge-limited',original:'badge-original'}[b];
+            const lbl = {bestseller:'Bestseller',new:'Nouveau',limited:'Édition limitée',original:'✓ Original'}[b];
+            return `<span class="badge ${cls}">${lbl}</span>`;
+          }).join("")}
+        </div>
+      </div>
+      <div style="text-align:right;flex-shrink:0">
+        <div style="font-family:var(--ff-serif);font-size:1.2rem;color:var(--ivory);margin-bottom:0.75rem">${price}</div>
+        <button class="btn btn-gold btn-sm" onclick="event.stopPropagation();quickAddToCart(${product.id})">
+          <i class="fas fa-shopping-bag"></i>
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+function renderActiveFilters() {
+  const bar = document.getElementById("activeFiltersBar");
+  const tags = [];
+  if (currentCat !== "all") tags.push({ label: catLabel(currentCat), clear: () => { currentCat = "all"; document.querySelector(".filter-btn.active")?.classList.remove("active"); document.querySelector("[data-cat='all']")?.classList.add("active"); applyFiltersAndRender(); } });
+  activeGenders.forEach(g => tags.push({ label: g.charAt(0).toUpperCase() + g.slice(1), clear: () => { activeGenders = activeGenders.filter(x => x !== g); applyFiltersAndRender(); } }));
+  activeCats.forEach(c => tags.push({ label: catLabel(c), clear: () => { activeCats = activeCats.filter(x => x !== c); applyFiltersAndRender(); } }));
+  activeBadges.forEach(b => tags.push({ label: badgeLabel(b), clear: () => { activeBadges = activeBadges.filter(x => x !== b); applyFiltersAndRender(); } }));
+
+  bar.innerHTML = tags.map((t,i) => `
+    <span class="active-filter-tag">
+      ${t.label}
+      <button onclick="activeFiltersActions[${i}]()" aria-label="Supprimer le filtre ${t.label}">✕</button>
+    </span>
+  `).join("");
+
+  // Store clear functions
+  window.activeFiltersActions = tags.map(t => t.clear);
+}
+
+function catLabel(cat) {
+  const map = { all:"Tout", homme:"Homme", femme:"Femme", mixte:"Mixte", oriental:"Oriental & Oud", boise:"Boisé", floral:"Floral", coffrets:"Coffrets", huiles:"Huiles", encens:"Encens" };
+  return map[cat] || cat;
+}
+
+function badgeLabel(b) {
+  const map = { bestseller:"Bestseller", new:"Nouveautés", limited:"Édition limitée", original:"Original" };
+  return map[b] || b;
+}
+
+function resetAllFilters() {
+  currentCat = "all";
+  activeGenders = [];
+  activeCats = [];
+  activeBadges = [];
+  priceMin = 0;
+  priceMax = 200000;
+  document.querySelectorAll(".filter-gender, .filter-cat, .filter-badge").forEach(cb => cb.checked = false);
+  document.getElementById("priceMin").value = 0;
+  document.getElementById("priceMax").value = 200000;
+  updatePriceUI();
+  document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+  document.querySelector("[data-cat='all']").classList.add("active");
+  applyFiltersAndRender();
+}
+
+// Quick filter buttons
+document.querySelectorAll(".filter-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    currentCat = btn.dataset.cat;
+    applyFiltersAndRender();
+  });
+});
+
+// Sort
+document.getElementById("sortSelect").addEventListener("change", e => {
+  sortBy = e.target.value;
+  applyFiltersAndRender();
+});
+
+// Sidebar checkboxes
+document.querySelectorAll(".filter-gender").forEach(cb => {
+  cb.addEventListener("change", () => {
+    activeGenders = [...document.querySelectorAll(".filter-gender:checked")].map(c => c.value);
+    applyFiltersAndRender();
+  });
+});
+
+document.querySelectorAll(".filter-cat").forEach(cb => {
+  cb.addEventListener("change", () => {
+    activeCats = [...document.querySelectorAll(".filter-cat:checked")].map(c => c.value);
+    applyFiltersAndRender();
+  });
+});
+
+document.querySelectorAll(".filter-badge").forEach(cb => {
+  cb.addEventListener("change", () => {
+    activeBadges = [...document.querySelectorAll(".filter-badge:checked")].map(c => c.value);
+    applyFiltersAndRender();
+  });
+});
+
+// Price range
+function updatePriceUI() {
+  const mn = parseInt(document.getElementById("priceMin").value);
+  const mx = parseInt(document.getElementById("priceMax").value);
+  const fill = document.getElementById("priceFill");
+  if (fill) {
+    fill.style.left  = (mn / 200000 * 100) + "%";
+    fill.style.right = ((200000 - mx) / 200000 * 100) + "%";
+  }
+  document.getElementById("priceMinLabel").textContent = new Intl.NumberFormat("fr-FR").format(mn) + " FCFA";
+  document.getElementById("priceMaxLabel").textContent = new Intl.NumberFormat("fr-FR").format(mx) + " FCFA";
+  priceMin = mn; priceMax = mx;
+}
+
+document.getElementById("priceMin").addEventListener("input", () => {
+  if (parseInt(document.getElementById("priceMin").value) > parseInt(document.getElementById("priceMax").value)) {
+    document.getElementById("priceMin").value = document.getElementById("priceMax").value;
+  }
+  updatePriceUI();
+  applyFiltersAndRender();
+});
+
+document.getElementById("priceMax").addEventListener("input", () => {
+  if (parseInt(document.getElementById("priceMax").value) < parseInt(document.getElementById("priceMin").value)) {
+    document.getElementById("priceMax").value = document.getElementById("priceMin").value;
+  }
+  updatePriceUI();
+  applyFiltersAndRender();
+});
+
+document.getElementById("resetFilters")?.addEventListener("click", resetAllFilters);
+
+// View toggle
+document.getElementById("viewGrid")?.addEventListener("click", () => {
+  viewMode = "grid";
+  document.getElementById("viewGrid").classList.add("active");
+  document.getElementById("viewList").classList.remove("active");
+  applyFiltersAndRender();
+});
+
+document.getElementById("viewList")?.addEventListener("click", () => {
+  viewMode = "list";
+  document.getElementById("viewList").classList.add("active");
+  document.getElementById("viewGrid").classList.remove("active");
+  applyFiltersAndRender();
+});
+
+// Mobile filter toggle
+document.getElementById("filterMobileBtn")?.addEventListener("click", () => {
+  const sf = document.getElementById("sidebarFilters");
+  sf.classList.toggle("open");
+});
+
+// Init
+readUrlParams();
+
+// Pre-select quick filter button based on URL
+if (currentCat !== "all") {
+  document.querySelectorAll(".filter-btn").forEach(b => {
+    b.classList.remove("active");
+    if (b.dataset.cat === currentCat) b.classList.add("active");
+  });
+}
+
+if (activeGenders.length) {
+  document.querySelectorAll(".filter-gender").forEach(cb => {
+    if (activeGenders.includes(cb.value)) cb.checked = true;
+  });
+}
+
+if (activeBadges.length) {
+  document.querySelectorAll(".filter-badge").forEach(cb => {
+    if (activeBadges.includes(cb.value)) cb.checked = true;
+  });
+}
+
+applyFiltersAndRender();
+</script>
+</body>
+</html>

@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title id="pageTitle">Fiche Produit — Maison AURELYS</title>
+  <meta name="description" id="pageDesc" content="Découvrez ce parfum de luxe chez Maison AURELYS, votre parfumerie de référence à Dakar." />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    .product-detail-tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid var(--border);
+      margin: 2rem 0;
+    }
+
+    .product-tab {
+      padding: 0.875rem 1.5rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: var(--transition-fast);
+    }
+
+    .product-tab:hover { color: var(--ivory); }
+    .product-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    .similar-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .add-to-cart-zone {
+      background: var(--dark2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .delivery-info {
+      margin-top: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.625rem;
+    }
+
+    .delivery-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .delivery-row i { color: var(--gold); width: 16px; }
+
+    .product-stock {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.75rem;
+      padding: 0.3rem 0.75rem;
+      border-radius: 2px;
+      margin-bottom: 1rem;
+    }
+
+    .in-stock  { background: rgba(76,175,80,0.1); color: #4CAF50; }
+    .low-stock { background: rgba(255,152,0,0.1); color: #FF9800; }
+    .out-stock { background: rgba(244,67,54,0.1); color: #F44336; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="navbar scrolled" id="navbar" role="navigation">
+  <div class="container">
+    <a href="index.html" class="navbar-logo" aria-label="Maison AURELYS">
+      <span class="logo-maison">Maison</span>
+      <span class="logo-name">AURELYS</span>
+    </a>
+    <ul class="navbar-nav" role="list">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="collections.html">Collections</a></li>
+      <li><a href="guide.html">Guide olfactif</a></li>
+      <li><a href="about.html">À propos</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="navbar-actions">
+      <button class="currency-toggle" id="currencyToggle">FCFA</button>
+      <button class="nav-btn" id="searchBtn"><i class="fas fa-search"></i></button>
+      <button class="nav-btn" id="cartToggleBtn" aria-label="Panier">
+        <i class="fas fa-shopping-bag"></i>
+        <span class="cart-badge">0</span>
+      </button>
+      <button class="hamburger" id="hamburger" aria-expanded="false" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+<div class="search-bar" id="searchBar">
+  <i class="fas fa-search" style="color:var(--text-muted)"></i>
+  <input type="search" id="searchInput" placeholder="Rechercher…" />
+  <button id="searchClose"><i class="fas fa-times" style="color:var(--text-muted)"></i></button>
+</div>
+<nav class="mobile-nav" id="mobileNav">
+  <div class="mobile-nav-header">
+    <div class="navbar-logo"><span class="logo-maison">Maison</span><span class="logo-name">AURELYS</span></div>
+    <button class="mobile-nav-close" id="mobileNavClose"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="mobile-nav-links">
+    <a href="index.html">Accueil</a>
+    <a href="collections.html">Collections</a>
+    <a href="guide.html">Guide olfactif</a>
+    <a href="about.html">À propos</a>
+    <a href="contact.html">Contact</a>
+    <a href="cart.html">Panier</a>
+  </div>
+</nav>
+<div class="nav-overlay" id="navOverlay"></div>
+<aside class="mini-cart" id="miniCart">
+  <div class="mini-cart-header">
+    <h3 style="font-family:var(--ff-serif);font-size:1.3rem">Votre panier</h3>
+    <button id="miniCartClose" class="mobile-nav-close"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="mini-cart-body" id="miniCartBody"></div>
+  <div class="mini-cart-footer" id="miniCartFooter" style="display:none">
+    <div class="d-flex justify-between mb-2" style="font-size:0.85rem;color:var(--text-muted)">
+      <span>Sous-total</span><span id="miniCartSubtotal" style="color:var(--ivory)"></span>
+    </div>
+    <a href="cart.html" class="btn btn-gold w-full" style="justify-content:center;display:flex">Finaliser la commande</a>
+  </div>
+</aside>
+
+<!-- PRODUCT CONTENT -->
+<main style="margin-top:72px;padding:3rem 0 5rem" id="productMain">
+  <div class="container">
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb" id="breadcrumb">
+      <a href="index.html">Accueil</a>
+      <span class="breadcrumb-sep">›</span>
+      <a href="collections.html">Collections</a>
+      <span class="breadcrumb-sep">›</span>
+      <span id="breadcrumbProduct">Produit</span>
+    </div>
+
+    <div class="product-page-grid" id="productGrid">
+
+      <!-- GALLERY -->
+      <div class="product-gallery">
+        <div class="product-main-img" id="mainImg">
+          <i class="fas fa-vial" style="color:rgba(200,169,110,0.15)"></i>
+          <!-- ⬇️ Real image: <img src="" id="mainImgReal" alt="" style="width:100%;height:100%;object-fit:cover"> -->
+        </div>
+        <div class="product-thumbs" id="thumbsRow">
+          <!-- Filled by JS -->
+        </div>
+      </div>
+
+      <!-- DETAIL -->
+      <div id="productDetail">
+        <!-- Filled by JS -->
+      </div>
+
+    </div>
+
+    <!-- TABS -->
+    <div class="product-detail-tabs" role="tablist" id="tabsBar">
+      <button class="product-tab active" role="tab" data-tab="notes" aria-selected="true">Notes olfactives</button>
+      <button class="product-tab" role="tab" data-tab="usage" aria-selected="false">Application & Conservation</button>
+      <button class="product-tab" role="tab" data-tab="delivery" aria-selected="false">Livraison</button>
+      <button class="product-tab" role="tab" data-tab="reviews" aria-selected="false">Avis clients</button>
+    </div>
+
+    <!-- TAB PANELS -->
+    <div id="tabNotes" class="tab-panel active" role="tabpanel" aria-label="Notes olfactives">
+      <!-- Filled by JS -->
+    </div>
+
+    <div id="tabUsage" class="tab-panel" role="tabpanel" aria-label="Conseils">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:1.5rem">
+        <div>
+          <h3 style="font-family:var(--ff-serif);font-size:1.5rem;margin-bottom:1.5rem">Comment appliquer</h3>
+          <div style="display:flex;flex-direction:column;gap:1rem">
+            <div style="display:flex;gap:1rem;align-items:flex-start">
+              <div style="width:32px;height:32px;background:rgba(200,169,110,0.1);border:1px solid var(--border-2);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:0.75rem;flex-shrink:0">1</div>
+              <div>
+                <strong style="font-size:0.85rem;color:var(--ivory)">Points de chaleur</strong>
+                <p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.25rem">Appliquez sur les poignets, le cou, le creux du coude et derrière les oreilles. La chaleur corporelle diffuse le parfum naturellement.</p>
+              </div>
+            </div>
+            <div style="display:flex;gap:1rem;align-items:flex-start">
+              <div style="width:32px;height:32px;background:rgba(200,169,110,0.1);border:1px solid var(--border-2);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:0.75rem;flex-shrink:0">2</div>
+              <div>
+                <strong style="font-size:0.85rem;color:var(--ivory)">Ne pas frotter</strong>
+                <p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.25rem">Évitez de frotter les poignets ensemble : cela casse les molécules aromatiques et altère la pyramide olfactive.</p>
+              </div>
+            </div>
+            <div style="display:flex;gap:1rem;align-items:flex-start">
+              <div style="width:32px;height:32px;background:rgba(200,169,110,0.1);border:1px solid var(--border-2);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:0.75rem;flex-shrink:0">3</div>
+              <div>
+                <strong style="font-size:0.85rem;color:var(--ivory)">Après la douche</strong>
+                <p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.25rem">La peau hydratée retient mieux le parfum. Appliquez après votre crème de corps pour une tenue prolongée.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h3 style="font-family:var(--ff-serif);font-size:1.5rem;margin-bottom:1.5rem">Conservation</h3>
+          <div style="display:flex;flex-direction:column;gap:1rem">
+            <div style="display:flex;gap:1rem;align-items:flex-start">
+              <i class="fas fa-thermometer-half" style="color:var(--gold);margin-top:0.2rem;flex-shrink:0"></i>
+              <p style="font-size:0.8rem;color:var(--text-muted)"><strong style="color:var(--ivory)">Température stable</strong> — Évitez les variations de chaleur. La salle de bain (humide et chaude) est le pire endroit pour stocker un parfum.</p>
+            </div>
+            <div style="display:flex;gap:1rem;align-items:flex-start">
+              <i class="fas fa-sun" style="color:var(--gold);margin-top:0.2rem;flex-shrink:0"></i>
+              <p style="font-size:0.8rem;color:var(--text-muted)"><strong style="color:var(--ivory)">À l'abri de la lumière</strong> — Les UV dégradent les molécules. Conservez dans sa boîte d'origine ou dans un placard sombre.</p>
+            </div>
+            <div style="display:flex;gap:1rem;align-items:flex-start">
+              <i class="fas fa-box" style="color:var(--gold);margin-top:0.2rem;flex-shrink:0"></i>
+              <p style="font-size:0.8rem;color:var(--text-muted)"><strong style="color:var(--ivory)">Flacon debout</strong> — Rangez vos flacons à la verticale pour éviter que l'alcool ne s'évapore par le bouchon.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="tabDelivery" class="tab-panel" role="tabpanel" aria-label="Livraison">
+      <div style="margin-top:1.5rem">
+        <table class="delivery-table">
+          <thead>
+            <tr>
+              <th>Zone</th>
+              <th>Délai estimé</th>
+              <th>Frais</th>
+            </tr>
+          </thead>
+          <tbody id="deliveryTableBody">
+            <!-- Filled by JS -->
+          </tbody>
+        </table>
+        <p style="font-size:0.8rem;color:var(--gold);margin-top:1.5rem">
+          <i class="fas fa-gift" style="margin-right:0.5rem"></i>
+          Livraison offerte pour toute commande de 75 000 FCFA et plus à Dakar.
+        </p>
+        <p style="font-size:0.78rem;color:var(--text-muted);margin-top:0.5rem">
+          Suivi en temps réel par WhatsApp. Emballage cadeau signature inclus dans chaque commande.
+        </p>
+      </div>
+    </div>
+
+    <div id="tabReviews" class="tab-panel" role="tabpanel" aria-label="Avis clients">
+      <div id="reviewsList" style="margin-top:1.5rem">
+        <!-- Filled by JS -->
+      </div>
+    </div>
+
+    <!-- SIMILAR PRODUCTS -->
+    <div style="margin-top:5rem">
+      <h2 class="section-title" style="margin-bottom:2rem">Vous pourriez aussi aimer</h2>
+      <div class="similar-grid" id="similarGrid">
+        <!-- Filled by JS -->
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="wa-float">
+  <span class="wa-bubble">Commander sur WhatsApp</span>
+  <a href="https://wa.me/221775505695?text=Bonjour%20Maison%20AURELYS%2C%20je%20souhaite%20avoir%20des%20informations%20sur%20vos%20parfums." target="_blank" rel="noopener" class="wa-btn" aria-label="WhatsApp">
+    <div class="wa-pulse"></div>
+    <i class="fab fa-whatsapp"></i>
+  </a>
+</div>
+
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/images.js"></script>
+<script src="js/main.js"></script>
+<script>
+// ─── Load product from URL ───────────────────────────────────
+const params  = new URLSearchParams(window.location.search);
+const pid     = parseInt(params.get("id")) || 1;
+const product = window.AURELYS.getProductById(pid);
+
+if (!product) {
+  document.getElementById("productMain").innerHTML = `
+    <div class="container" style="text-align:center;padding:5rem 0">
+      <h2 style="font-family:var(--ff-serif)">Produit introuvable</h2>
+      <p style="color:var(--text-muted);margin:1rem 0">Ce produit n'existe pas ou n'est plus disponible.</p>
+      <a href="collections.html" class="btn btn-gold">Voir les collections</a>
+    </div>
+  `;
+} else {
+  // Update page meta
+  document.title = `${product.name} — ${product.brand} · Maison AURELYS`;
+  document.getElementById("pageDesc").content = product.short_desc;
+  document.getElementById("breadcrumbProduct").textContent = product.name;
+
+  // Gallery
+  if (typeof window.initProductGallery === "function") {
+    window.initProductGallery(product);
+  } else {
+    const mainImg = document.getElementById("mainImg");
+    if (mainImg) {
+      mainImg.innerHTML = `<img src="${product.image || 'images/parfums/fallback-aurelys.jpg'}" alt="${product.name}" class="product-main-photo loaded" onerror="if(window.aurelysFallback)window.aurelysFallback(this);else this.src='images/parfums/fallback-aurelys.jpg'" />`;
+    }
+  }
+
+  // Stock status
+  let stockHTML = "";
+  if (product.stock > 5)     stockHTML = `<span class="product-stock in-stock"><i class="fas fa-check-circle"></i> En stock (${product.stock} disponibles)</span>`;
+  else if (product.stock > 0) stockHTML = `<span class="product-stock low-stock"><i class="fas fa-exclamation-circle"></i> Stock limité — ${product.stock} restant${product.stock > 1?"s":""}</span>`;
+  else                        stockHTML = `<span class="product-stock out-stock"><i class="fas fa-times-circle"></i> Rupture de stock</span>`;
+
+  // Sizes HTML
+  const sizesHTML = product.sizes.map((s, i) => `
+    <button class="size-btn ${i === product.sizes.length - 1 ? 'active' : ''}" data-size="${s}" onclick="selectSize(this, ${s})">${s} ml</button>
+  `).join("");
+
+  // Badges
+  const badgesHTML = product.badges.map(b => {
+    const cls = {bestseller:'badge-bestseller',new:'badge-new',limited:'badge-limited',original:'badge-original'}[b];
+    const lbl = {bestseller:'Bestseller',new:'Nouveau',limited:'Édition limitée',original:'✓ Authenticité garantie'}[b];
+    return `<span class="badge ${cls}">${lbl}</span>`;
+  }).join(" ");
+
+  // Price
+  const price = new Intl.NumberFormat("fr-FR").format(product.price_fcfa);
+  const defaultSize = product.sizes[0] || 100;
+
+  // WhatsApp message formatted per prompt requirement:
+  const waMsg = encodeURIComponent(`Bonjour Maison AURELYS, je veux commander : ${product.name} – ${product.brand}, ${defaultSize} ml, ${price} FCFA.`);
+
+  // Detail HTML
+  document.getElementById("productDetail").innerHTML = `
+    <div>${badgesHTML}</div>
+    <div class="product-detail-brand" style="margin-top:1rem">${product.brand}</div>
+    <h1 class="product-detail-name">${product.name}</h1>
+
+    <div style="display:flex;align-items:center;gap:1rem;margin:0.75rem 0">
+      <div class="stars" aria-label="${product.rating} étoiles">${"★".repeat(Math.round(product.rating))}</div>
+      <span style="font-size:0.78rem;color:var(--text-muted)">${product.rating}/5 · ${product.reviews} avis</span>
+    </div>
+
+    <div class="product-detail-price" id="detailPrice">
+      ${price} <span style="font-size:0.65rem;letter-spacing:0.1em;vertical-align:middle">FCFA</span>
+      <span class="price-alt">≈ €${product.price_eur}</span>
+    </div>
+
+    ${stockHTML}
+
+    <p style="font-size:0.9rem;color:var(--text-muted);line-height:1.8;margin-bottom:1.5rem">${product.description}</p>
+
+    <div class="size-selector">
+      <div class="size-label">Contenance</div>
+      <div class="size-options">${sizesHTML}</div>
+    </div>
+
+    <!-- Metrics -->
+    <div style="margin:1.5rem 0">
+      <div class="meter-bar">
+        <span class="meter-label">Tenue</span>
+        <div class="meter-track"><div class="meter-fill" style="width:${product.hold * 10}%"></div></div>
+        <span class="meter-value">${product.hold}/10</span>
+      </div>
+      <div class="meter-bar">
+        <span class="meter-label">Sillage</span>
+        <div class="meter-track"><div class="meter-fill" style="width:${product.sillage * 10}%"></div></div>
+        <span class="meter-value">${product.sillage}/10</span>
+      </div>
+    </div>
+
+    <!-- Add to cart zone -->
+    <div class="add-to-cart-zone">
+      <div style="display:flex;gap:0.75rem;margin-bottom:0.875rem">
+        <div style="display:flex;align-items:center;gap:0;border:1px solid var(--border);border-radius:var(--radius)">
+          <button class="qty-btn" id="qtyMinus" style="width:36px;height:44px;border:none" onclick="changeQty(-1)">−</button>
+          <span id="qtyDisplay" style="width:36px;text-align:center;font-size:0.9rem">1</span>
+          <button class="qty-btn" id="qtyPlus" style="width:36px;height:44px;border:none" onclick="changeQty(1)">+</button>
+        </div>
+        <button class="btn btn-gold flex-1" id="addToCartBtn" onclick="doAddToCart()" ${product.stock === 0 ? "disabled" : ""}>
+          <i class="fas fa-shopping-bag"></i>
+          ${product.stock === 0 ? "Rupture de stock" : "Ajouter au panier"}
+        </button>
+        <button class="btn btn-icon btn-outline" data-wishlist-id="${product.id}" onclick="toggleWishlistCard(this,${product.id})" aria-label="Favoris">
+          <i class="${window.AurelyCart?.wishlist?.has(product.id) ? 'fas' : 'far'} fa-heart"></i>
+        </button>
+      </div>
+      <a href="https://wa.me/221775505695?text=${waMsg}"
+         target="_blank" rel="noopener"
+         class="btn btn-whatsapp w-full" style="justify-content:center">
+        <i class="fab fa-whatsapp"></i> Commander sur WhatsApp
+      </a>
+    </div>
+
+    <div class="delivery-info">
+      <div class="delivery-row"><i class="fas fa-truck"></i><span>Livraison Dakar en 24-48h · Afrique de l'Ouest en 5-10 jours</span></div>
+      <div class="delivery-row"><i class="fas fa-shield-alt"></i><span>Authenticité 100% garantie · Emballage cadeau luxe inclus</span></div>
+      <div class="delivery-row"><i class="fas fa-undo"></i><span>Retour sous 7 jours en cas de défaut</span></div>
+    </div>
+  `;
+
+  // ─── Notes tab ───────────────────────────────────────────
+  const noteIcons = { top: "💨", heart: "🌸", base: "🌳" };
+  const noteLabels = { top: "Notes de Tête", heart: "Notes de Cœur", base: "Notes de Fond" };
+
+  document.getElementById("tabNotes").innerHTML = `
+    <div class="olfactory-notes">
+      ${Object.entries(product.notes).map(([type, notes]) => `
+        <div class="note-group animate-in">
+          <div class="note-label">${noteLabels[type] || type}</div>
+          <span class="note-icon">${noteIcons[type] || "✦"}</span>
+          <div class="note-items">${notes.join("<br>")}</div>
+        </div>
+      `).join("")}
+    </div>
+    <div style="background:var(--dark2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:1rem">
+      <p style="font-size:0.85rem;color:var(--text-muted);line-height:1.8">
+        <i class="fas fa-info-circle" style="color:var(--gold);margin-right:0.5rem"></i>
+        La pyramide olfactive décrit l'évolution du parfum sur votre peau. Les notes de tête s'évaporent dans les premières minutes, les notes de cœur constituent l'identité du parfum (1-4h), et les notes de fond persistent jusqu'à 8-12h.
+      </p>
+    </div>
+  `;
+
+  // ─── Delivery tab ────────────────────────────────────────
+  const deliveryBody = document.getElementById("deliveryTableBody");
+  Object.entries(window.AURELYS.deliveryZones).forEach(([key, zone]) => {
+    const isFree = product.price_fcfa >= window.AURELYS.freeDeliveryThreshold && key === "Dakar";
+    deliveryBody.insertAdjacentHTML("beforeend", `
+      <tr>
+        <td style="color:var(--ivory)">${zone.name}</td>
+        <td>${zone.delay}</td>
+        <td style="color:${isFree ? '#4CAF50' : 'var(--gold)'}">
+          ${isFree ? "🎁 Offerte" : new Intl.NumberFormat("fr-FR").format(zone.price) + " FCFA"}
+        </td>
+      </tr>
+    `);
+  });
+
+  // ─── Reviews tab ─────────────────────────────────────────
+  const fakeReviews = [
+    { name: "Khalil M.", city: "Dakar", rating: 5, text: "Absolument incroyable. Le sillage dure toute la journée et les compliments pleuvent. Authenticité vérifiée — c'est bien l'original.", date: "Il y a 2 jours", initials: "KM" },
+    { name: "Anta F.", city: "Abidjan", rating: 5, text: "Commande livrée en 6 jours depuis Dakar, emballage parfait, parfum authentique. Je recommande Maison AURELYS sans hésitation !", date: "Il y a 1 semaine", initials: "AF" },
+    { name: "Boubacar S.", city: "Dakar, Médina", rating: 4, text: "Très bon parfum, exactement comme décrit. Livraison rapide et service client réactif sur WhatsApp. Un petit bémol sur l'emballage secondaire mais rien de grave.", date: "Il y a 2 semaines", initials: "BS" }
+  ];
+
+  document.getElementById("reviewsList").innerHTML = `
+    <div style="display:flex;align-items:center;gap:3rem;margin-bottom:2rem;padding-bottom:2rem;border-bottom:1px solid var(--border)">
+      <div style="text-align:center">
+        <div style="font-family:var(--ff-serif);font-size:4rem;line-height:1;color:var(--ivory)">${product.rating}</div>
+        <div class="stars" style="justify-content:center;margin:0.5rem 0">${"★".repeat(Math.round(product.rating))}</div>
+        <div style="font-size:0.75rem;color:var(--text-muted)">${product.reviews} avis</div>
+      </div>
+      <div style="flex:1">
+        ${[5,4,3,2,1].map(star => {
+          const pct = star >= Math.round(product.rating) ? (star === Math.round(product.rating) ? 70 : 20) : 5;
+          return `
+            <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.375rem">
+              <span style="font-size:0.75rem;color:var(--text-muted);width:12px">${star}</span>
+              <i class="fas fa-star" style="font-size:0.7rem;color:var(--gold)"></i>
+              <div style="flex:1;height:4px;background:var(--dark4);border-radius:2px">
+                <div style="width:${pct}%;height:100%;background:var(--gold);border-radius:2px"></div>
+              </div>
+              <span style="font-size:0.7rem;color:var(--text-muted);width:30px">${pct}%</span>
+            </div>
+          `;
+        }).join("")}
+      </div>
+    </div>
+    ${fakeReviews.map(r => `
+      <div style="padding:1.5rem 0;border-bottom:1px solid var(--border)">
+        <div style="display:flex;align-items:center;gap:0.875rem;margin-bottom:0.875rem">
+          <div class="testimonial-avatar" style="width:36px;height:36px;font-size:1rem">${r.initials}</div>
+          <div>
+            <div style="font-size:0.85rem;font-weight:600;color:var(--ivory)">${r.name}</div>
+            <div style="font-size:0.7rem;color:var(--text-muted)"><i class="fas fa-map-marker-alt" style="margin-right:0.25rem"></i>${r.city} · ${r.date}</div>
+          </div>
+          <div class="stars" style="margin-left:auto">${"★".repeat(r.rating)}${"☆".repeat(5-r.rating)}</div>
+        </div>
+        <p style="font-size:0.85rem;color:var(--text-muted);line-height:1.7">${r.text}</p>
+        <div style="margin-top:0.5rem;display:inline-flex;align-items:center;gap:0.5rem;font-size:0.65rem;color:var(--text-muted);border:1px solid var(--border);padding:0.2rem 0.5rem;border-radius:2px">
+          <i class="fas fa-check-circle" style="color:var(--gold)"></i> Achat vérifié
+        </div>
+      </div>
+    `).join("")}
+  `;
+
+  // ─── Similar products ────────────────────────────────────
+  const similar = window.AURELYS.products
+    .filter(p => p.id !== product.id && p.category.some(c => product.category.includes(c)))
+    .slice(0, 4);
+
+  const simGrid = document.getElementById("similarGrid");
+  similar.forEach(p => {
+    simGrid.insertAdjacentHTML("beforeend", window.renderProductCard(p));
+  });
+}
+
+// ─── Qty control ─────────────────────────────────────────────
+let qty = 1;
+let selectedSize = product?.sizes?.[product.sizes.length - 1] || null;
+
+function changeQty(delta) {
+  if (!product) return;
+  qty = Math.max(1, Math.min(qty + delta, product.stock));
+  document.getElementById("qtyDisplay").textContent = qty;
+}
+
+function selectSize(btn, size) {
+  document.querySelectorAll(".size-btn").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  selectedSize = size;
+}
+
+function doAddToCart() {
+  if (!product || !selectedSize) return;
+  window.AurelyCart.add(product.id, selectedSize, qty);
+}
+
+// ─── Tabs ────────────────────────────────────────────────────
+const tabMap = { notes: "tabNotes", usage: "tabUsage", delivery: "tabDelivery", reviews: "tabReviews" };
+
+document.querySelectorAll(".product-tab").forEach(tab => {
+  tab.addEventListener("click", () => {
+    document.querySelectorAll(".product-tab").forEach(t => { t.classList.remove("active"); t.setAttribute("aria-selected", "false"); });
+    document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+    tab.classList.add("active");
+    tab.setAttribute("aria-selected", "true");
+    const panel = document.getElementById(tabMap[tab.dataset.tab]);
+    if (panel) panel.classList.add("active");
+  });
+});
+</script>
+</body>
+</html>

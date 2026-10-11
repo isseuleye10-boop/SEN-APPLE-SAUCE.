@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — Maison AURELYS | Parfumerie de Luxe Dakar</title>
+  <meta name="description" content="Contactez Maison AURELYS : WhatsApp, Instagram, formulaire, adresse boutique Dakar. Conseil personnalisé et commandes disponibles 7j/7." />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+</head>
+<body>
+
+<nav class="navbar scrolled" id="navbar">
+  <div class="container">
+    <a href="index.html" class="navbar-logo">
+      <span class="logo-maison">Maison</span>
+      <span class="logo-name">AURELYS</span>
+    </a>
+    <ul class="navbar-nav">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="collections.html">Collections</a></li>
+      <li><a href="guide.html">Guide olfactif</a></li>
+      <li><a href="about.html">À propos</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+    </ul>
+    <div class="navbar-actions">
+      <button class="currency-toggle" id="currencyToggle">FCFA</button>
+      <button class="nav-btn" id="searchBtn"><i class="fas fa-search"></i></button>
+      <button class="nav-btn" id="cartToggleBtn">
+        <i class="fas fa-shopping-bag"></i><span class="cart-badge">0</span>
+      </button>
+      <button class="hamburger" id="hamburger" aria-expanded="false" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+<div class="search-bar" id="searchBar">
+  <i class="fas fa-search" style="color:var(--text-muted)"></i>
+  <input type="search" id="searchInput" placeholder="Rechercher…" />
+  <button id="searchClose"><i class="fas fa-times" style="color:var(--text-muted)"></i></button>
+</div>
+<nav class="mobile-nav" id="mobileNav">
+  <div class="mobile-nav-header">
+    <div class="navbar-logo"><span class="logo-maison">Maison</span><span class="logo-name">AURELYS</span></div>
+    <button class="mobile-nav-close" id="mobileNavClose"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="mobile-nav-links">
+    <a href="index.html">Accueil</a><a href="collections.html">Collections</a>
+    <a href="guide.html">Guide olfactif</a><a href="about.html">À propos</a>
+    <a href="contact.html">Contact</a><a href="cart.html">Panier</a>
+  </div>
+</nav>
+<div class="nav-overlay" id="navOverlay"></div>
+<aside class="mini-cart" id="miniCart">
+  <div class="mini-cart-header">
+    <h3 style="font-family:var(--ff-serif);font-size:1.3rem">Votre panier</h3>
+    <button id="miniCartClose" class="mobile-nav-close"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="mini-cart-body" id="miniCartBody"></div>
+  <div class="mini-cart-footer" id="miniCartFooter" style="display:none">
+    <div class="d-flex justify-between mb-2" style="font-size:0.85rem;color:var(--text-muted)">
+      <span>Sous-total</span><span id="miniCartSubtotal" style="color:var(--ivory)"></span>
+    </div>
+    <a href="cart.html" class="btn btn-gold w-full" style="justify-content:center;display:flex">Finaliser</a>
+  </div>
+</aside>
+
+<!-- HERO -->
+<div class="page-hero" style="background:linear-gradient(135deg,var(--dark) 0%,#1C0A00 50%,var(--dark) 100%)">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html">Accueil</a><span class="breadcrumb-sep">›</span><span>Contact</span></div>
+    <h1>Contactez-nous</h1>
+    <p style="color:var(--text-muted);margin-top:0.75rem">Notre équipe vous répond 7j/7, de 8h à 22h (heure de Dakar)</p>
+  </div>
+</div>
+
+<main style="padding:5rem 0 6rem">
+  <div class="container">
+
+    <div class="contact-grid">
+
+      <!-- LEFT: Info -->
+      <div>
+        <span class="section-label">Comment nous joindre</span>
+        <h2 class="section-title" style="margin-bottom:2.5rem">Nous sommes à votre écoute</h2>
+
+        <div class="contact-info-item animate-in">
+          <div class="contact-info-icon"><i class="fab fa-whatsapp"></i></div>
+          <div>
+            <div style="font-family:var(--ff-serif);font-size:1.1rem;color:var(--ivory);margin-bottom:0.25rem">WhatsApp</div>
+            <a href="https://wa.me/221XXXXXXXXX" target="_blank" style="color:var(--text-muted);font-size:0.85rem">+221 XX XXX XX XX</a>
+            <p style="font-size:0.78rem;color:var(--text-muted);margin-top:0.25rem">Réponse sous 30 minutes</p>
+          </div>
+        </div>
+
+        <div class="contact-info-item animate-in">
+          <div class="contact-info-icon"><i class="fas fa-envelope"></i></div>
+          <div>
+            <div style="font-family:var(--ff-serif);font-size:1.1rem;color:var(--ivory);margin-bottom:0.25rem">E-mail</div>
+            <a href="mailto:contact@maisonaurelys.sn" style="color:var(--text-muted);font-size:0.85rem">contact@maisonaurelys.sn</a>
+          </div>
+        </div>
+
+        <div class="contact-info-item animate-in">
+          <div class="contact-info-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <div>
+            <div style="font-family:var(--ff-serif);font-size:1.1rem;color:var(--ivory);margin-bottom:0.25rem">Boutique</div>
+            <p style="color:var(--text-muted);font-size:0.85rem;line-height:1.7">
+              Dakar, Sénégal<br>
+              <!-- Remplacez par votre adresse exacte -->
+              <em style="opacity:0.7">Adresse à renseigner</em>
+            </p>
+            <p style="font-size:0.75rem;color:var(--text-muted);margin-top:0.25rem">Lun–Sam · 9h–20h</p>
+          </div>
+        </div>
+
+        <!-- Social links -->
+        <div style="margin-top:2.5rem">
+          <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-muted);margin-bottom:1rem">Nous suivre</div>
+          <div style="display:flex;flex-direction:column;gap:0.75rem">
+            <a href="#" target="_blank" style="display:flex;align-items:center;gap:0.875rem;color:var(--text-muted);font-size:0.85rem;transition:color 0.2s" onmouseover="this.style.color='var(--ivory)'" onmouseout="this.style.color='var(--text-muted)'">
+              <div style="width:38px;height:38px;border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold)"><i class="fab fa-instagram"></i></div>
+              @maisonaurelys
+            </a>
+            <a href="#" target="_blank" style="display:flex;align-items:center;gap:0.875rem;color:var(--text-muted);font-size:0.85rem;transition:color 0.2s" onmouseover="this.style.color='var(--ivory)'" onmouseout="this.style.color='var(--text-muted)'">
+              <div style="width:38px;height:38px;border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold)"><i class="fab fa-tiktok"></i></div>
+              @maisonaurelys
+            </a>
+            <a href="#" target="_blank" style="display:flex;align-items:center;gap:0.875rem;color:var(--text-muted);font-size:0.85rem;transition:color 0.2s" onmouseover="this.style.color='var(--ivory)'" onmouseout="this.style.color='var(--text-muted)'">
+              <div style="width:38px;height:38px;border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold)"><i class="fab fa-snapchat"></i></div>
+              @maisonaurelys
+            </a>
+          </div>
+        </div>
+
+        <!-- Map placeholder -->
+        <div style="margin-top:2.5rem;aspect-ratio:16/9;border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;background:var(--dark2);display:flex;align-items:center;justify-content:center;position:relative">
+          <div style="text-align:center;color:var(--text-muted)">
+            <i class="fas fa-map-marker-alt" style="font-size:2rem;color:var(--gold);display:block;margin-bottom:0.75rem"></i>
+            <p style="font-size:0.82rem">Maison AURELYS · Dakar</p>
+            <p style="font-size:0.72rem;opacity:0.6;margin-top:0.25rem">Carte Google Maps à intégrer</p>
+          </div>
+          <!-- Intégrez votre iframe Google Maps ici :
+          <iframe src="https://www.google.com/maps/embed?..." style="width:100%;height:100%;border:none;position:absolute;inset:0"></iframe>
+          -->
+        </div>
+      </div>
+
+      <!-- RIGHT: Form -->
+      <div>
+        <div style="background:var(--dark2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem">
+          <h3 style="font-family:var(--ff-serif);font-size:1.8rem;color:var(--ivory);margin-bottom:0.5rem">Envoyez un message</h3>
+          <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:2rem">Ou commandez directement sur <a href="https://wa.me/221XXXXXXXXX" style="color:var(--gold)">WhatsApp</a> pour une réponse immédiate.</p>
+
+          <form id="contactForm" onsubmit="handleContactForm(event)" novalidate>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+              <div class="form-group">
+                <label class="form-label" for="cf-name">Prénom & Nom *</label>
+                <input class="form-control" type="text" id="cf-name" required placeholder="Amadou Diallo" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cf-phone">Téléphone *</label>
+                <input class="form-control" type="tel" id="cf-phone" required placeholder="+221 77 000 00 00" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="cf-email">E-mail</label>
+              <input class="form-control" type="email" id="cf-email" placeholder="votre@email.com" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="cf-subject">Objet</label>
+              <select class="form-control" id="cf-subject">
+                <option value="">Sélectionnez un sujet…</option>
+                <option>Demande de conseil parfum</option>
+                <option>Commande / Livraison</option>
+                <option>Disponibilité d'un produit</option>
+                <option>Retour / Remboursement</option>
+                <option>Partenariat / Revendeur</option>
+                <option>Autre</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="cf-message">Votre message *</label>
+              <textarea class="form-control form-control--textarea" id="cf-message" required placeholder="Décrivez votre demande, le parfum qui vous intéresse, votre budget…"></textarea>
+            </div>
+
+            <div style="display:flex;gap:1rem">
+              <button type="submit" class="btn btn-gold flex-1" id="formSubmit">
+                <i class="fas fa-paper-plane"></i> Envoyer le message
+              </button>
+              <a href="https://wa.me/221XXXXXXXXX" target="_blank" class="btn btn-whatsapp">
+                <i class="fab fa-whatsapp"></i>
+              </a>
+            </div>
+
+            <div id="formSuccess" style="display:none;margin-top:1rem;padding:1rem;background:rgba(76,175,80,0.1);border:1px solid rgba(76,175,80,0.3);border-radius:var(--radius);font-size:0.85rem;color:#4CAF50">
+              <i class="fas fa-check-circle"></i> Message envoyé ! Nous vous répondrons dans les 30 minutes sur WhatsApp.
+            </div>
+          </form>
+        </div>
+
+        <!-- FAQ -->
+        <div style="margin-top:2rem">
+          <h3 style="font-family:var(--ff-serif);font-size:1.4rem;color:var(--ivory);margin-bottom:1.5rem">Questions fréquentes</h3>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">
+              <span>Comment êtes-vous sûrs que les parfums sont originaux ?</span>
+              <span class="icon">+</span>
+            </button>
+            <div class="accordion-content">
+              <div class="accordion-body">
+                Tous nos parfums sont sourcés auprès de distributeurs officiels agréés par les marques. Nous vérifions chaque flacon à la réception : numéro de batch, emballage, qualité du flacon et du bouchon. Un certificat d'authenticité est disponible sur demande pour les articles de plus de 100 000 FCFA.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">
+              <span>Livrez-vous en dehors de Dakar ?</span>
+              <span class="icon">+</span>
+            </button>
+            <div class="accordion-content">
+              <div class="accordion-body">
+                Oui ! Nous livrons dans toutes les régions du Sénégal, en Côte d'Ivoire, au Mali, au Nigeria, au Ghana, et dans la diaspora (France, Belgique, USA, Canada…). Les délais et frais varient selon la destination. Consultez notre tableau de livraison ou posez la question sur WhatsApp.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">
+              <span>Puis-je payer à la livraison ?</span>
+              <span class="icon">+</span>
+            </button>
+            <div class="accordion-content">
+              <div class="accordion-body">
+                Le paiement à la livraison (en espèces) est disponible uniquement à Dakar. Pour les autres villes et pays, nous demandons un acompte de 50% via Wave ou Orange Money avant l'envoi, le solde étant payable à réception.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">
+              <span>Quelle est votre politique de retour ?</span>
+              <span class="icon">+</span>
+            </button>
+            <div class="accordion-content">
+              <div class="accordion-body">
+                Vous avez 7 jours pour signaler un problème (produit endommagé, erreur de commande). Dans ce cas, nous remplaçons ou remboursons le produit. Notez que les parfums ouverts et testés ne peuvent être repris pour des raisons d'hygiène, sauf défaut avéré.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">
+              <span>Proposez-vous des emballages cadeaux ?</span>
+              <span class="icon">+</span>
+            </button>
+            <div class="accordion-content">
+              <div class="accordion-body">
+                Oui ! Chaque commande est livrée dans notre emballage signature (boîte dorée + ruban velours). Pour les occasions spéciales (mariage, Tabaski, Noël, anniversaire), nous proposons des coffrets cadeaux luxe avec carte de vœux personnalisée. Indiquez-le dans les notes de commande.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</main>
+
+<div class="wa-float">
+  <span class="wa-bubble">Chattez avec nous</span>
+  <a href="https://wa.me/221XXXXXXXXX?text=Bonjour%20Maison%20AURELYS%2C%20j'ai%20une%20question." target="_blank" rel="noopener" class="wa-btn" aria-label="WhatsApp">
+    <div class="wa-pulse"></div>
+    <i class="fab fa-whatsapp"></i>
+  </a>
+</div>
+
+<footer>
+  <div class="container">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem;margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)">
+      <div class="navbar-logo"><span class="logo-maison">Maison</span><span class="logo-name">AURELYS</span></div>
+      <div style="display:flex;gap:0.75rem">
+        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+        <a href="https://wa.me/221XXXXXXXXX" class="social-link"><i class="fab fa-whatsapp"></i></a>
+      </div>
+    </div>
+    <div class="footer-bottom"><span>© 2025 Maison AURELYS · Tous droits réservés</span></div>
+  </div>
+</footer>
+
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/images.js"></script>
+<script src="js/main.js"></script>
+<script>
+function handleContactForm(e) {
+  e.preventDefault();
+  const btn = document.getElementById("formSubmit");
+  const msg = document.getElementById("formSuccess");
+
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi…';
+
+  // Simulate send (replace with actual email integration like EmailJS)
+  setTimeout(() => {
+    msg.style.display = "block";
+    btn.innerHTML = '<i class="fas fa-check"></i> Envoyé';
+    btn.style.background = "#4CAF50";
+    btn.style.borderColor = "#4CAF50";
+
+    // Also open WhatsApp with the form data pre-filled
+    const name    = document.getElementById("cf-name").value;
+    const phone   = document.getElementById("cf-phone").value;
+    const subject = document.getElementById("cf-subject").value;
+    const message = document.getElementById("cf-message").value;
+
+    const waMsg = `Bonjour Maison AURELYS !\n\nNom : ${name}\nTél : ${phone}\nSujet : ${subject}\n\n${message}`;
+    // Optionally auto-open WA: window.open(`https://wa.me/221XXXXXXXXX?text=${encodeURIComponent(waMsg)}`, "_blank");
+  }, 1200);
+}
+</script>
+</body>
+</html>
